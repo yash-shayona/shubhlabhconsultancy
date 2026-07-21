@@ -1,0 +1,402 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "PRS-.YYYY.-.#####",
+ "creation": "2026-07-21 15:21:44.062015",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "business_source_details_section",
+  "business_month",
+  "financial_year",
+  "cno",
+  "column_break_vqwf",
+  "business_type",
+  "campaign_name",
+  "policy_details_section",
+  "policy_type",
+  "policy_number",
+  "endorsement_number",
+  "column_break_ghnx",
+  "start_date",
+  "expiry_date",
+  "share_percentage",
+  "insurer_customer_details_section",
+  "insurer_name",
+  "column_break_gmii",
+  "customer_name",
+  "brokerage_calculation_section",
+  "brokerage_premium",
+  "brokerage_percentage",
+  "brokerage_amount",
+  "column_break_zwfu",
+  "tp_premium",
+  "tp_brokerage_percentage",
+  "tp_brokerage_amount",
+  "brokerage_summary_section",
+  "total_brokerage",
+  "column_break_loqh",
+  "total_brokerage_and_reward",
+  "validation_processing_status_section",
+  "validation_status",
+  "processing_status",
+  "column_break_puzt",
+  "has_warning",
+  "is_duplicate",
+  "section_break_aenk",
+  "validation_messages",
+  "normalized_matching_values_section",
+  "normalized_policy_number",
+  "normalized_endorsement_number",
+  "column_break_tvgi",
+  "normalized_insurer_name",
+  "normalized_customer_name",
+  "section_break_dqbv",
+  "record_fingerprint",
+  "exception_handling_section",
+  "ignore_record",
+  "column_break_zoqh",
+  "ignore_reason",
+  "posting_audit_details_section",
+  "posted_policy_register",
+  "column_break_ecwg",
+  "processed_by",
+  "processed_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "business_month",
+   "fieldtype": "Date",
+   "label": "Business Month"
+  },
+  {
+   "fieldname": "financial_year",
+   "fieldtype": "Data",
+   "label": "Financial Year"
+  },
+  {
+   "fieldname": "cno",
+   "fieldtype": "Int",
+   "label": "CNO"
+  },
+  {
+   "fieldname": "policy_type",
+   "fieldtype": "Data",
+   "label": "Policy Type"
+  },
+  {
+   "fieldname": "policy_number",
+   "fieldtype": "Data",
+   "label": "Policy Number"
+  },
+  {
+   "fieldname": "endorsement_number",
+   "fieldtype": "Data",
+   "label": "Endorsement Number"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "expiry_date",
+   "fieldtype": "Date",
+   "label": "Expiry Date"
+  },
+  {
+   "fieldname": "share_percentage",
+   "fieldtype": "Percent",
+   "label": "Share Percentage"
+  },
+  {
+   "default": "0",
+   "fieldname": "brokerage_premium",
+   "fieldtype": "Currency",
+   "label": "Brokerage Premium"
+  },
+  {
+   "fieldname": "column_break_vqwf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "brokerage_percentage",
+   "fieldtype": "Percent",
+   "label": "Brokerage Percentage"
+  },
+  {
+   "default": "0",
+   "fieldname": "brokerage_amount",
+   "fieldtype": "Currency",
+   "label": "Brokerage Amount"
+  },
+  {
+   "default": "0",
+   "fieldname": "tp_premium",
+   "fieldtype": "Currency",
+   "label": "TP Premium"
+  },
+  {
+   "default": "0",
+   "fieldname": "tp_brokerage_percentage",
+   "fieldtype": "Percent",
+   "label": "TP Brokerage Percentage"
+  },
+  {
+   "default": "0",
+   "fieldname": "tp_brokerage_amount",
+   "fieldtype": "Currency",
+   "label": "TP Brokerage Amount"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_brokerage",
+   "fieldtype": "Currency",
+   "label": "Total Brokerage"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_brokerage_and_reward",
+   "fieldtype": "Currency",
+   "label": "Total Brokerage and Reward"
+  },
+  {
+   "fieldname": "business_type",
+   "fieldtype": "Select",
+   "label": "Business Type",
+   "options": "\nNew\nRenewal"
+  },
+  {
+   "fieldname": "insurer_name",
+   "fieldtype": "Data",
+   "label": "Insurer Name"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "campaign_name",
+   "fieldtype": "Data",
+   "label": "Campaign Name"
+  },
+  {
+   "fieldname": "business_source_details_section",
+   "fieldtype": "Section Break",
+   "label": "Business & Source Details"
+  },
+  {
+   "fieldname": "policy_details_section",
+   "fieldtype": "Section Break",
+   "label": "Policy Details"
+  },
+  {
+   "fieldname": "column_break_ghnx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "insurer_customer_details_section",
+   "fieldtype": "Section Break",
+   "label": "Insurer & Customer Details"
+  },
+  {
+   "fieldname": "column_break_gmii",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "brokerage_calculation_section",
+   "fieldtype": "Section Break",
+   "label": "Brokerage Calculation"
+  },
+  {
+   "fieldname": "column_break_zwfu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "brokerage_summary_section",
+   "fieldtype": "Section Break",
+   "label": "Brokerage Summary"
+  },
+  {
+   "fieldname": "column_break_loqh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "validation_processing_status_section",
+   "fieldtype": "Section Break",
+   "label": "Validation & Processing Status"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "validation_status",
+   "fieldtype": "Select",
+   "label": "Validation Status",
+   "options": "\nPending\nValid\nWarning\nInvalid",
+   "read_only": 1
+  },
+  {
+   "default": "Not Processed",
+   "fieldname": "processing_status",
+   "fieldtype": "Select",
+   "label": "Processing Status",
+   "options": "\nNot Processed\nReady\nProcessing\nProcessed\nIgnored\nFailed"
+  },
+  {
+   "fieldname": "column_break_puzt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "has_warning",
+   "fieldtype": "Check",
+   "label": "Has Warning",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_duplicate",
+   "fieldtype": "Check",
+   "label": "Is Duplicate",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_aenk",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "validation_messages",
+   "fieldtype": "Small Text",
+   "label": "Validation Messages",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "normalized_matching_values_section",
+   "fieldtype": "Section Break",
+   "label": "Normalized Matching Values"
+  },
+  {
+   "fieldname": "normalized_policy_number",
+   "fieldtype": "Data",
+   "label": "Normalized Policy Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "normalized_endorsement_number",
+   "fieldtype": "Data",
+   "label": "Normalized Endorsement Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_tvgi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "normalized_insurer_name",
+   "fieldtype": "Data",
+   "label": "Normalized Insurer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "normalized_customer_name",
+   "fieldtype": "Data",
+   "label": "Normalized Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_dqbv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "record_fingerprint",
+   "fieldtype": "Data",
+   "label": "Record Fingerprint",
+   "read_only": 1
+  },
+  {
+   "fieldname": "exception_handling_section",
+   "fieldtype": "Section Break",
+   "label": "Exception Handling"
+  },
+  {
+   "default": "0",
+   "fieldname": "ignore_record",
+   "fieldtype": "Check",
+   "label": "Ignore Record"
+  },
+  {
+   "fieldname": "column_break_zoqh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.ignore_record == 1",
+   "fieldname": "ignore_reason",
+   "fieldtype": "Small Text",
+   "label": "Ignore Reason",
+   "mandatory_depends_on": "eval:doc.ignore_record == 1"
+  },
+  {
+   "fieldname": "posting_audit_details_section",
+   "fieldtype": "Section Break",
+   "label": "Posting & Audit Details"
+  },
+  {
+   "fieldname": "posted_policy_register",
+   "fieldtype": "Link",
+   "label": "Posted Policy Register",
+   "options": "Policy Register",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ecwg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "processed_by",
+   "fieldtype": "Link",
+   "label": "Processed By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "processed_on",
+   "fieldtype": "Datetime",
+   "label": "Processed On",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-21 16:26:09.923251",
+ "modified_by": "Administrator",
+ "module": "Shubh Labh Consultancy",
+ "name": "Policy Register Staging",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

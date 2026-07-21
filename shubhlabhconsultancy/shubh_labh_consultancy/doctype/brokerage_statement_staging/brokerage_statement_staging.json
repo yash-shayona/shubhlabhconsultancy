@@ -1,0 +1,278 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "BSS-.YYYY.-.#####",
+ "creation": "2026-07-21 16:27:32.331762",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "statement_details_section",
+  "statement_month",
+  "column_break_kxei",
+  "company_name",
+  "policy_customer_details_section",
+  "policy_number",
+  "customer_name",
+  "column_break_rqdf",
+  "start_date",
+  "expiry_date",
+  "brokerage_details_section",
+  "brokerage_received",
+  "validation_processing_status_section",
+  "validation_status",
+  "processing_status",
+  "column_break_dzpn",
+  "has_warning",
+  "is_duplicate",
+  "section_break_cgrf",
+  "validation_messages",
+  "normalized_matching_values_section",
+  "normalized_policy_number",
+  "normalized_company_name",
+  "column_break_jxdu",
+  "normalized_customer_name",
+  "section_break_lzze",
+  "record_fingerprint",
+  "exception_handling_section",
+  "ignore_record",
+  "column_break_puub",
+  "ignore_reason",
+  "posting_audit_details_section",
+  "posted_brokerage_statement",
+  "column_break_paha",
+  "processed_by",
+  "processed_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "statement_details_section",
+   "fieldtype": "Section Break",
+   "label": "Statement Details"
+  },
+  {
+   "fieldname": "statement_month",
+   "fieldtype": "Date",
+   "label": "Statement Month"
+  },
+  {
+   "fieldname": "column_break_kxei",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name"
+  },
+  {
+   "fieldname": "policy_customer_details_section",
+   "fieldtype": "Section Break",
+   "label": "Policy & Customer Details"
+  },
+  {
+   "fieldname": "policy_number",
+   "fieldtype": "Data",
+   "label": "Policy Number"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "column_break_rqdf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "expiry_date",
+   "fieldtype": "Date",
+   "label": "Expiry Date"
+  },
+  {
+   "fieldname": "brokerage_details_section",
+   "fieldtype": "Section Break",
+   "label": "Brokerage Details"
+  },
+  {
+   "default": "0",
+   "fieldname": "brokerage_received",
+   "fieldtype": "Currency",
+   "label": "Brokerage Received"
+  },
+  {
+   "fieldname": "validation_processing_status_section",
+   "fieldtype": "Section Break",
+   "label": "Validation Processing Status"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "validation_status",
+   "fieldtype": "Select",
+   "label": "Validation Status",
+   "options": "\nPending\nValid\nWarning\nInvalid",
+   "read_only": 1
+  },
+  {
+   "default": "Not Processed",
+   "fieldname": "processing_status",
+   "fieldtype": "Select",
+   "label": "Processing Status",
+   "options": "\nNot Processed\nReady\nProcessing\nProcessed\nIgnored\nFailed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_dzpn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "has_warning",
+   "fieldtype": "Check",
+   "label": "Has Warning",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_duplicate",
+   "fieldtype": "Check",
+   "label": "Is Duplicate",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_cgrf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "validation_messages",
+   "fieldtype": "Small Text",
+   "label": "Validation Messages",
+   "read_only": 1
+  },
+  {
+   "fieldname": "normalized_matching_values_section",
+   "fieldtype": "Section Break",
+   "label": "Normalized Matching Values"
+  },
+  {
+   "fieldname": "normalized_policy_number",
+   "fieldtype": "Data",
+   "label": "Normalized Policy Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "normalized_company_name",
+   "fieldtype": "Data",
+   "label": "Normalized Company Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_jxdu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "normalized_customer_name",
+   "fieldtype": "Data",
+   "label": "Normalized Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_lzze",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "record_fingerprint",
+   "fieldtype": "Data",
+   "label": "Record Fingerprint",
+   "read_only": 1
+  },
+  {
+   "fieldname": "exception_handling_section",
+   "fieldtype": "Section Break",
+   "label": "Exception Handling"
+  },
+  {
+   "default": "0",
+   "fieldname": "ignore_record",
+   "fieldtype": "Check",
+   "label": "Ignore Record"
+  },
+  {
+   "fieldname": "column_break_puub",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.ignore_record == 1",
+   "fieldname": "ignore_reason",
+   "fieldtype": "Small Text",
+   "label": "Ignore Reason",
+   "mandatory_depends_on": "eval:doc.ignore_record == 1"
+  },
+  {
+   "fieldname": "posting_audit_details_section",
+   "fieldtype": "Section Break",
+   "label": "Posting & Audit Details"
+  },
+  {
+   "fieldname": "posted_brokerage_statement",
+   "fieldtype": "Link",
+   "label": "Posted Brokerage Statement",
+   "options": "Brokerage Statement",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_paha",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "processed_by",
+   "fieldtype": "Link",
+   "label": "Processed By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "processed_on",
+   "fieldtype": "Datetime",
+   "label": "Processed On",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-21 16:50:13.509828",
+ "modified_by": "Administrator",
+ "module": "Shubh Labh Consultancy",
+ "name": "Brokerage Statement Staging",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "search_fields": "policy_number, company_name, customer_name",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "policy_number",
+ "track_changes": 1
+}

@@ -11,15 +11,25 @@ app_license = "mit"
 # required_apps = []
 
 # Each item in the list will be shown as an app in the apps page
-# add_to_apps_screen = [
-# 	{
-# 		"name": "shubhlabhconsultancy",
-# 		"logo": "/assets/shubhlabhconsultancy/logo.png",
-# 		"title": "Shubh Labh Consultancy",
-# 		"route": "/shubhlabhconsultancy",
-# 		"has_permission": "shubhlabhconsultancy.api.permission.has_app_permission"
-# 	}
-# ]
+add_to_apps_screen = [
+	{
+		"name": "shubhlabhconsultancy",
+		"logo": "/assets/shubhlabhconsultancy/images/logo.png",
+		"title": "Shubh Labh Consultancy",
+		"route": "/shubhlabhconsultancy",
+		# "has_permission": "shubhlabhconsultancy.api.permission.has_app_permission"
+	}
+]
+
+# This hook provides the default desk/login/logo fallback without touching File records.
+app_logo_url = "/assets/shubhlabhconsultancy/images/logo.png"
+
+# This hook provides website-level asset branding directly from public files.
+website_context = {
+    "favicon": "/assets/shubhlabhconsultancy/images/favicon.png",
+    "splash_image": "/assets/shubhlabhconsultancy/images/logo.png",
+    "banner_image": "/assets/shubhlabhconsultancy/images/logo.png",
+}
 
 # Includes in <head>
 # ------------------
@@ -86,13 +96,13 @@ app_license = "mit"
 # ------------
 
 # before_install = "shubhlabhconsultancy.install.before_install"
-# after_install = "shubhlabhconsultancy.install.after_install"
+after_install = "shubhlabhconsultancy.setup.install.after_install"
 
 # Uninstallation
 # ------------
 
 # before_uninstall = "shubhlabhconsultancy.uninstall.before_uninstall"
-# after_uninstall = "shubhlabhconsultancy.uninstall.after_uninstall"
+after_uninstall = "shubhlabhconsultancy.setup.uninstall.after_uninstall"
 
 # Integration Setup
 # ------------------
@@ -255,4 +265,3 @@ app_license = "mit"
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
-

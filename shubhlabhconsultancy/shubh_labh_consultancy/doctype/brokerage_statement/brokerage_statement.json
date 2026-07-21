@@ -1,0 +1,200 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "BS-.YYYY.-.#####",
+ "creation": "2026-07-21 16:40:29.889914",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_noo9",
+  "amended_from",
+  "statement_details_section",
+  "statement_month",
+  "column_break_hdim",
+  "company_name",
+  "policy_customer_details_section",
+  "policy_number",
+  "customer_name",
+  "column_break_iias",
+  "start_date",
+  "expiry_date",
+  "brokerage_receipt_allocation_section",
+  "brokerage_received",
+  "allocated_brokerage",
+  "column_break_dtyn",
+  "unallocated_brokerage",
+  "reconciliation_status",
+  "source_references_section",
+  "source_staging",
+  "column_break_uzkc",
+  "source_data_import"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_noo9",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Brokerage Statement",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "statement_details_section",
+   "fieldtype": "Section Break",
+   "label": "Statement Details"
+  },
+  {
+   "fieldname": "statement_month",
+   "fieldtype": "Date",
+   "label": "Statement Month",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_hdim",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "policy_customer_details_section",
+   "fieldtype": "Section Break",
+   "label": "Policy & Customer Details"
+  },
+  {
+   "fieldname": "policy_number",
+   "fieldtype": "Data",
+   "label": "Policy Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_iias",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "expiry_date",
+   "fieldtype": "Date",
+   "label": "Expiry Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "brokerage_receipt_allocation_section",
+   "fieldtype": "Section Break",
+   "label": "Brokerage Receipt & Allocation"
+  },
+  {
+   "default": "0",
+   "fieldname": "brokerage_received",
+   "fieldtype": "Currency",
+   "label": "Brokerage Received",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "allocated_brokerage",
+   "fieldtype": "Currency",
+   "label": "Allocated Brokerage",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_dtyn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "unallocated_brokerage",
+   "fieldtype": "Currency",
+   "label": "Unallocated Brokerage",
+   "read_only": 1
+  },
+  {
+   "default": "Unallocated",
+   "fieldname": "reconciliation_status",
+   "fieldtype": "Select",
+   "label": "Reconciliation Status",
+   "options": "\nUnallocated\nPartially Allocated\nFully Allocated\nOn Account\nDisputed\nReversed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "source_references_section",
+   "fieldtype": "Section Break",
+   "label": "Source References"
+  },
+  {
+   "fieldname": "source_staging",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Source Staging",
+   "options": "Brokerage Statement Staging",
+   "read_only": 1,
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_uzkc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source_data_import",
+   "fieldtype": "Link",
+   "label": "Source Data Import",
+   "options": "Data Import",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-07-21 17:27:33.630326",
+ "modified_by": "Administrator",
+ "module": "Shubh Labh Consultancy",
+ "name": "Brokerage Statement",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "search_fields": "policy_number, company_name, customer_name",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "policy_number",
+ "track_changes": 1
+}

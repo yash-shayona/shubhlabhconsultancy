@@ -1,0 +1,356 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "PR-.YYYY.-.#####",
+ "creation": "2026-07-21 16:11:12.054670",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_aoll",
+  "amended_from",
+  "business_details_section",
+  "business_month",
+  "financial_year",
+  "cno",
+  "column_break_efkd",
+  "business_type",
+  "campaign_name",
+  "policy_details_section",
+  "policy_type",
+  "policy_number",
+  "endorsement_number",
+  "column_break_bptx",
+  "start_date",
+  "expiry_date",
+  "share_percentage",
+  "insurer_customer_details_section",
+  "insurer_name",
+  "column_break_wqlt",
+  "customer_name",
+  "brokerage_calculation_section",
+  "brokerage_premium",
+  "brokerage_percentage",
+  "brokerage_amount",
+  "column_break_bzxm",
+  "tp_premium",
+  "tp_brokerage_percentage",
+  "tp_brokerage_amount",
+  "brokerage_receivable_summary_section",
+  "total_brokerage",
+  "total_brokerage_and_reward",
+  "column_break_ccwu",
+  "expected_brokerage",
+  "reconciliation_summary_section",
+  "settled_brokerage",
+  "written_off_brokerage",
+  "column_break_ruyg",
+  "outstanding_brokerage",
+  "reconciliation_status",
+  "source_references_section",
+  "source_staging",
+  "column_break_ravt",
+  "source_data_import"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_aoll",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Policy Register",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "business_details_section",
+   "fieldtype": "Section Break",
+   "label": "Business Details"
+  },
+  {
+   "fieldname": "business_month",
+   "fieldtype": "Date",
+   "label": "Business Month",
+   "read_only": 1
+  },
+  {
+   "fieldname": "financial_year",
+   "fieldtype": "Date",
+   "label": "Financial Year",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cno",
+   "fieldtype": "Int",
+   "label": "CNO",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_efkd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "business_type",
+   "fieldtype": "Select",
+   "label": "Business Type",
+   "options": "\nNew\nRenewal",
+   "read_only": 1
+  },
+  {
+   "fieldname": "campaign_name",
+   "fieldtype": "Data",
+   "label": "Campaign Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "policy_details_section",
+   "fieldtype": "Section Break",
+   "label": "Policy Details"
+  },
+  {
+   "fieldname": "policy_type",
+   "fieldtype": "Data",
+   "label": "Policy Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "policy_number",
+   "fieldtype": "Data",
+   "label": "Policy Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "endorsement_number",
+   "fieldtype": "Data",
+   "label": "Endorsement Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_bptx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "expiry_date",
+   "fieldtype": "Date",
+   "label": "Expiry Date",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "share_percentage",
+   "fieldtype": "Percent",
+   "label": "Share Percentage",
+   "read_only": 1
+  },
+  {
+   "fieldname": "insurer_customer_details_section",
+   "fieldtype": "Section Break",
+   "label": "Insurer & Customer Details"
+  },
+  {
+   "fieldname": "insurer_name",
+   "fieldtype": "Data",
+   "label": "Insurer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_wqlt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "brokerage_calculation_section",
+   "fieldtype": "Section Break",
+   "label": "Brokerage Calculation"
+  },
+  {
+   "default": "0",
+   "fieldname": "brokerage_premium",
+   "fieldtype": "Currency",
+   "label": "Brokerage Premium",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "brokerage_percentage",
+   "fieldtype": "Percent",
+   "label": "Brokerage Percentage",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "brokerage_amount",
+   "fieldtype": "Currency",
+   "label": "Brokerage Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_bzxm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "tp_premium",
+   "fieldtype": "Currency",
+   "label": "TP Premium",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "tp_brokerage_percentage",
+   "fieldtype": "Percent",
+   "label": "TP Brokerage Percentage",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "tp_brokerage_amount",
+   "fieldtype": "Currency",
+   "label": "TP Brokerage Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "brokerage_receivable_summary_section",
+   "fieldtype": "Section Break",
+   "label": "Brokerage Receivable Summary"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_brokerage",
+   "fieldtype": "Currency",
+   "label": "Total Brokerage",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_brokerage_and_reward",
+   "fieldtype": "Currency",
+   "label": "Total Brokerage and Reward",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ccwu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "expected_brokerage",
+   "fieldtype": "Currency",
+   "label": "Expected Brokerage",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reconciliation_summary_section",
+   "fieldtype": "Section Break",
+   "label": "Reconciliation Summary"
+  },
+  {
+   "default": "0",
+   "fieldname": "settled_brokerage",
+   "fieldtype": "Currency",
+   "label": "Settled Brokerage",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "written_off_brokerage",
+   "fieldtype": "Currency",
+   "label": "Written-off Brokerage",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ruyg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "outstanding_brokerage",
+   "fieldtype": "Currency",
+   "label": "Outstanding Brokerage",
+   "read_only": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "reconciliation_status",
+   "fieldtype": "Select",
+   "label": "Reconciliation Status",
+   "options": "\nPending\nPartially Settled\nFully Settled\nWritten Off\nExcess Received\nDisputed\nReversed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "source_references_section",
+   "fieldtype": "Section Break",
+   "label": "Source References"
+  },
+  {
+   "fieldname": "source_staging",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Source Staging",
+   "options": "Policy Register Staging",
+   "read_only": 1,
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_ravt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source_data_import",
+   "fieldtype": "Link",
+   "label": "Source Data Import",
+   "options": "Data Import",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-07-21 16:38:59.145247",
+ "modified_by": "Administrator",
+ "module": "Shubh Labh Consultancy",
+ "name": "Policy Register",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "search_fields": "policy_number, cno, insurer_name, customer_name",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "policy_number",
+ "track_changes": 1
+}
