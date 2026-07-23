@@ -1,0 +1,68 @@
+# Validate Pending Records
+
+- Check Staging Write permission
+- Find all outstanding non-ignored/non-posted records
+- Mark records Processing
+- Run background job
+- Skip newly ignored records
+- Skip already posted records
+- Recover existing submitted final link
+- Normalize policy/endorsement/insurer/customer
+- Generate SHA-256 fingerprint
+- Validate Business Month
+- Validate Start Date
+- Validate Expiry Date
+- Validate CNO > 0
+- Require Policy Number
+- Require Policy Type
+- Require Insurer Name
+- Require Customer Name
+- Ensure Expiry Date >= Start Date
+- Ensure Share Percentage 1–100
+- Ensure Business Type is New or Renewal
+- Warn blank Endorsement
+- Warn selected zero amounts
+- Warn negative financial amounts
+- Warn brokerage percentage above 100
+- Warn TP brokerage percentage above 100
+- Warn policy period not overlapping Business Month
+- Warn Brokerage Amount calculation mismatch
+- Warn TP Brokerage Amount calculation mismatch
+- Warn Total Brokerage calculation mismatch
+- Warn reward total below Total Brokerage
+- Check staging duplicate
+- Check submitted final duplicate
+- Set Valid / Warning / Invalid
+- Set Ready / Not Processed
+- Store validation messages
+- Store duplicate and warning flags
+
+# Post Valid Records
+
+- Check Staging Write permission
+- Check Policy Register Create permission
+- Check Policy Register Submit permission
+- Select only Valid + Ready records
+- Exclude ignored records
+- Exclude already linked records
+- Mark candidates Processing
+- Check ignore again
+- Check posted link again
+- Check final source_staging duplicate
+- Recover submitted existing final
+- Block if draft final exists
+- Run complete revalidation again
+- Allow only Valid result
+- Create one Policy Register
+- Copy staging business fields
+- Attach source staging
+- Attach latest successful Data Import
+- Initialize reconciliation amounts
+- Insert Policy Register
+- Submit Policy Register
+- Update staging as Processed
+- Store final document link
+- Store processed user and datetime
+- Rollback individual failed record
+- Mark failed posting as Failed
+- Publish realtime summary

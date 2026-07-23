@@ -54,6 +54,8 @@
   {
    "fieldname": "statement_month",
    "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Statement Month"
   },
   {
@@ -63,6 +65,8 @@
   {
    "fieldname": "company_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Company Name"
   },
   {
@@ -71,13 +75,17 @@
    "label": "Policy & Customer Details"
   },
   {
+   "bold": 1,
    "fieldname": "policy_number",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Policy Number"
   },
   {
    "fieldname": "customer_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Customer Name"
   },
   {
@@ -103,6 +111,7 @@
    "default": "0",
    "fieldname": "brokerage_received",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Brokerage Received"
   },
   {
@@ -114,6 +123,7 @@
    "default": "Pending",
    "fieldname": "validation_status",
    "fieldtype": "Select",
+   "in_standard_filter": 1,
    "label": "Validation Status",
    "options": "\nPending\nValid\nWarning\nInvalid",
    "read_only": 1
@@ -122,6 +132,7 @@
    "default": "Not Processed",
    "fieldname": "processing_status",
    "fieldtype": "Select",
+   "in_standard_filter": 1,
    "label": "Processing Status",
    "options": "\nNot Processed\nReady\nProcessing\nProcessed\nIgnored\nFailed",
    "read_only": 1
@@ -134,6 +145,7 @@
    "default": "0",
    "fieldname": "has_warning",
    "fieldtype": "Check",
+   "in_standard_filter": 1,
    "label": "Has Warning",
    "read_only": 1
   },
@@ -141,6 +153,7 @@
    "default": "0",
    "fieldname": "is_duplicate",
    "fieldtype": "Check",
+   "in_standard_filter": 1,
    "label": "Is Duplicate",
    "read_only": 1
   },
@@ -200,6 +213,7 @@
    "default": "0",
    "fieldname": "ignore_record",
    "fieldtype": "Check",
+   "in_standard_filter": 1,
    "label": "Ignore Record"
   },
   {
@@ -221,6 +235,7 @@
   {
    "fieldname": "posted_brokerage_statement",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Posted Brokerage Statement",
    "options": "Brokerage Statement",
    "read_only": 1
@@ -246,7 +261,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-21 16:50:13.509828",
+ "modified": "2026-07-23 11:29:50.336913",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "Brokerage Statement Staging",

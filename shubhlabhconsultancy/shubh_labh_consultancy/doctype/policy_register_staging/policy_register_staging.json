@@ -69,6 +69,8 @@
   {
    "fieldname": "business_month",
    "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Business Month"
   },
   {
@@ -87,8 +89,11 @@
    "label": "Policy Type"
   },
   {
+   "bold": 1,
    "fieldname": "policy_number",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Policy Number"
   },
   {
@@ -161,6 +166,8 @@
    "default": "0",
    "fieldname": "total_brokerage_and_reward",
    "fieldtype": "Currency",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Total Brokerage and Reward"
   },
   {
@@ -172,11 +179,15 @@
   {
    "fieldname": "insurer_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Insurer Name"
   },
   {
    "fieldname": "customer_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Customer Name"
   },
   {
@@ -234,6 +245,7 @@
    "default": "Pending",
    "fieldname": "validation_status",
    "fieldtype": "Select",
+   "in_standard_filter": 1,
    "label": "Validation Status",
    "options": "\nPending\nValid\nWarning\nInvalid",
    "read_only": 1
@@ -242,6 +254,7 @@
    "default": "Not Processed",
    "fieldname": "processing_status",
    "fieldtype": "Select",
+   "in_standard_filter": 1,
    "label": "Processing Status",
    "options": "\nNot Processed\nReady\nProcessing\nProcessed\nIgnored\nFailed"
   },
@@ -253,6 +266,7 @@
    "default": "0",
    "fieldname": "has_warning",
    "fieldtype": "Check",
+   "in_standard_filter": 1,
    "label": "Has Warning",
    "read_only": 1
   },
@@ -260,6 +274,7 @@
    "default": "0",
    "fieldname": "is_duplicate",
    "fieldtype": "Check",
+   "in_standard_filter": 1,
    "label": "Is Duplicate",
    "read_only": 1
   },
@@ -326,6 +341,7 @@
    "default": "0",
    "fieldname": "ignore_record",
    "fieldtype": "Check",
+   "in_standard_filter": 1,
    "label": "Ignore Record"
   },
   {
@@ -347,6 +363,7 @@
   {
    "fieldname": "posted_policy_register",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Posted Policy Register",
    "options": "Policy Register",
    "read_only": 1
@@ -372,7 +389,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-21 16:26:09.923251",
+ "modified": "2026-07-23 11:28:50.448257",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "Policy Register Staging",
@@ -395,6 +412,7 @@
  ],
  "row_format": "Dynamic",
  "rows_threshold_for_grid_search": 20,
+ "search_fields": "policy_number, cno, insurer_name, customer_name",
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": [],
