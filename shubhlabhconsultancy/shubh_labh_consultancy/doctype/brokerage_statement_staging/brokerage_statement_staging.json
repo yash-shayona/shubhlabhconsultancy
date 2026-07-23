@@ -20,6 +20,16 @@
   "expiry_date",
   "brokerage_details_section",
   "brokerage_received",
+  "insurer_source_data_tab",
+  "source_transaction_reference",
+  "source_proposal_number",
+  "source_row_number",
+  "column_break_htnx",
+  "source_endorsement_reference",
+  "source_version_number",
+  "source_business_type",
+  "source_product",
+  "validation_and_processing_tab",
   "validation_processing_status_section",
   "validation_status",
   "processing_status",
@@ -256,12 +266,65 @@
    "fieldtype": "Datetime",
    "label": "Processed On",
    "read_only": 1
+  },
+  {
+   "fieldname": "insurer_source_data_tab",
+   "fieldtype": "Tab Break",
+   "label": "Insurer Source Data"
+  },
+  {
+   "fieldname": "source_transaction_reference",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Source Transaction Reference"
+  },
+  {
+   "fieldname": "source_proposal_number",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Source Proposal Number"
+  },
+  {
+   "fieldname": "source_row_number",
+   "fieldtype": "Int",
+   "label": "Source Row Number",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "column_break_htnx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source_endorsement_reference",
+   "fieldtype": "Data",
+   "label": "Source Endorsement Reference"
+  },
+  {
+   "fieldname": "source_version_number",
+   "fieldtype": "Data",
+   "label": "Source Version Number"
+  },
+  {
+   "fieldname": "source_business_type",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Source Business Type"
+  },
+  {
+   "fieldname": "source_product",
+   "fieldtype": "Data",
+   "label": "Source Product"
+  },
+  {
+   "fieldname": "validation_and_processing_tab",
+   "fieldtype": "Tab Break",
+   "label": "Validation & Processing"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-23 11:29:50.336913",
+ "modified": "2026-07-23 18:26:23.597270",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "Brokerage Statement Staging",

@@ -28,7 +28,16 @@
   "source_references_section",
   "source_staging",
   "column_break_uzkc",
-  "source_data_import"
+  "source_data_import",
+  "insurer_source_data_tab",
+  "source_transaction_reference",
+  "source_proposal_number",
+  "source_row_number",
+  "column_break_yknk",
+  "source_endorsement_reference",
+  "source_version_number",
+  "source_business_type",
+  "source_product"
  ],
  "fields": [
   {
@@ -174,13 +183,62 @@
    "label": "Source Data Import",
    "options": "Data Import",
    "read_only": 1
+  },
+  {
+   "fieldname": "insurer_source_data_tab",
+   "fieldtype": "Tab Break",
+   "in_standard_filter": 1,
+   "label": "Insurer Source Data"
+  },
+  {
+   "fieldname": "source_transaction_reference",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Source Transaction Reference"
+  },
+  {
+   "fieldname": "column_break_yknk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source_proposal_number",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Source Proposal Number"
+  },
+  {
+   "fieldname": "source_row_number",
+   "fieldtype": "Int",
+   "label": "Source Row Number",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "source_endorsement_reference",
+   "fieldtype": "Data",
+   "label": "Source Endorsement Reference"
+  },
+  {
+   "fieldname": "source_version_number",
+   "fieldtype": "Data",
+   "label": "Source Version Number"
+  },
+  {
+   "fieldname": "source_business_type",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Source Business Type"
+  },
+  {
+   "fieldname": "source_product",
+   "fieldtype": "Data",
+   "label": "Source Product"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-23 11:32:35.081182",
+ "modified": "2026-07-23 18:33:23.073792",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "Brokerage Statement",

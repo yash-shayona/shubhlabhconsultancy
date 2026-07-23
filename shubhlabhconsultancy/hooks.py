@@ -11,15 +11,15 @@ app_license = "mit"
 # required_apps = []
 
 # Each item in the list will be shown as an app in the apps page
-add_to_apps_screen = [
-	{
-		"name": "shubhlabhconsultancy",
-		"logo": "/assets/shubhlabhconsultancy/images/logo.png",
-		"title": "Shubh Labh Consultancy",
-		"route": "/shubhlabhconsultancy",
-		# "has_permission": "shubhlabhconsultancy.api.permission.has_app_permission"
-	}
-]
+# add_to_apps_screen = [
+# 	{
+# 		"name": "shubhlabhconsultancy",
+# 		"logo": "/assets/shubhlabhconsultancy/images/logo.png",
+# 		"title": "Shubh Labh Consultancy",
+# 		"route": "/shubhlabhconsultancy",
+# 		# "has_permission": "shubhlabhconsultancy.api.permission.has_app_permission"
+# 	}
+# ]
 
 # This hook provides the default desk/login/logo fallback without touching File records.
 app_logo_url = "/assets/shubhlabhconsultancy/images/logo.png"
