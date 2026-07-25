@@ -30,6 +30,14 @@ BUSINESS_FIELDS = (
     "start_date",
     "expiry_date",
     "brokerage_received",
+    "source_transaction_reference",
+    "source_endorsement_reference",
+    "source_proposal_number",
+    "source_version_number",
+    "source_business_type",
+    "source_product",
+    "source_row_number",
+    "additional_source_data",
 )
 
 
@@ -57,7 +65,9 @@ class BrokerageStatementStaging(Document):
         posted_brokerage_statement: DF.Link | None
         processed_by: DF.Link | None
         processed_on: DF.Datetime | None
-        processing_status: DF.Literal["", "Not Processed", "Ready", "Processing", "Processed", "Ignored", "Failed"]
+        processing_status: DF.Literal[
+            "", "Not Processed", "Ready", "Processing", "Processed", "Ignored", "Failed"
+        ]
         record_fingerprint: DF.Data | None
         source_business_type: DF.Data | None
         source_endorsement_reference: DF.Data | None
@@ -716,6 +726,13 @@ def _create_brokerage_statement(
             "allocated_brokerage": 0,
             "unallocated_brokerage": (brokerage_received),
             "reconciliation_status": "Unallocated",
+            "source_transaction_reference": (staging.source_transaction_reference),
+            "source_endorsement_reference": (staging.source_endorsement_reference),
+            "source_proposal_number": (staging.source_proposal_number),
+            "source_version_number": (staging.source_version_number),
+            "source_business_type": (staging.source_business_type),
+            "source_product": staging.source_product,
+            "source_row_number": staging.source_row_number,
             "source_staging": staging.name,
             "source_data_import": source_data_import,
         }
