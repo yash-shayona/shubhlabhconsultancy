@@ -28,28 +28,7 @@
   "source_references_section",
   "source_staging",
   "column_break_uzkc",
-  "source_data_import",
-  "section_break_mcvj",
-  "source_transaction_reference",
-  "source_proposal_number",
-  "source_row_number",
-  "column_break_yknk",
-  "source_endorsement_reference",
-  "source_version_number",
-  "source_business_type",
-  "source_product",
-  "reconciliation_tab",
-  "matching_result_section",
-  "matching_status",
-  "suggested_policy_register",
-  "column_break_aewp",
-  "match_method",
-  "match_score",
-  "match_details",
-  "matching_audit_section",
-  "last_match_run_by",
-  "column_break_eruo",
-  "last_match_run_on"
+  "source_data_import"
  ],
  "fields": [
   {
@@ -195,129 +174,13 @@
    "label": "Source Data Import",
    "options": "Data Import",
    "read_only": 1
-  },
-  {
-   "fieldname": "source_transaction_reference",
-   "fieldtype": "Data",
-   "in_standard_filter": 1,
-   "label": "Source Transaction Reference"
-  },
-  {
-   "fieldname": "column_break_yknk",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "source_proposal_number",
-   "fieldtype": "Data",
-   "in_standard_filter": 1,
-   "label": "Source Proposal Number"
-  },
-  {
-   "fieldname": "source_row_number",
-   "fieldtype": "Int",
-   "label": "Source Row Number",
-   "non_negative": 1
-  },
-  {
-   "fieldname": "source_endorsement_reference",
-   "fieldtype": "Data",
-   "label": "Source Endorsement Reference"
-  },
-  {
-   "fieldname": "source_version_number",
-   "fieldtype": "Data",
-   "label": "Source Version Number"
-  },
-  {
-   "fieldname": "source_business_type",
-   "fieldtype": "Data",
-   "in_standard_filter": 1,
-   "label": "Source Business Type"
-  },
-  {
-   "fieldname": "source_product",
-   "fieldtype": "Data",
-   "label": "Source Product"
-  },
-  {
-   "fieldname": "reconciliation_tab",
-   "fieldtype": "Tab Break",
-   "label": "Reconciliation"
-  },
-  {
-   "fieldname": "matching_result_section",
-   "fieldtype": "Section Break",
-   "label": "Matching Result"
-  },
-  {
-   "default": "Pending",
-   "fieldname": "matching_status",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Matching Status",
-   "options": "\nPending\nExact Match\nSuggested Match\nAmbiguous\nUnmatched\nManual Review\nAllocated"
-  },
-  {
-   "description": "Best candidate identified by the matching engine. Actual allocation is stored in Brokerage Allocation.",
-   "fieldname": "suggested_policy_register",
-   "fieldtype": "Link",
-   "in_standard_filter": 1,
-   "label": "Suggested Policy Register",
-   "options": "Policy Register"
-  },
-  {
-   "fieldname": "column_break_aewp",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "match_method",
-   "fieldtype": "Select",
-   "in_standard_filter": 1,
-   "label": "Match Method",
-   "options": "\nExact Policy\nEndorsement\nExact Policy\nScored Match\nManual Match"
-  },
-  {
-   "fieldname": "match_score",
-   "fieldtype": "Percent",
-   "label": "Match Score"
-  },
-  {
-   "description": "Matching rules, candidate count and reasons used to determine the result.",
-   "fieldname": "match_details",
-   "fieldtype": "Small Text",
-   "label": "Match Details"
-  },
-  {
-   "fieldname": "matching_audit_section",
-   "fieldtype": "Section Break",
-   "label": "Matching Audit"
-  },
-  {
-   "fieldname": "last_match_run_by",
-   "fieldtype": "Link",
-   "label": "Last Match Run By",
-   "options": "User"
-  },
-  {
-   "fieldname": "column_break_eruo",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "last_match_run_on",
-   "fieldtype": "Datetime",
-   "label": "Last Match Run On"
-  },
-  {
-   "fieldname": "section_break_mcvj",
-   "fieldtype": "Section Break"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-25 15:11:31.378402",
+ "modified": "2026-07-25 15:14:19.721388",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "Brokerage Statement",

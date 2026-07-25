@@ -20,26 +20,12 @@ class BrokerageStatement(Document):
         company_name: DF.Data | None
         customer_name: DF.Data | None
         expiry_date: DF.Date | None
-        last_match_run_by: DF.Link | None
-        last_match_run_on: DF.Datetime | None
-        match_details: DF.SmallText | None
-        match_method: DF.Literal["", "Exact Policy", "Endorsement", "Exact Policy", "Scored Match", "Manual Match"]
-        match_score: DF.Percent
-        matching_status: DF.Literal["", "Pending", "Exact Match", "Suggested Match", "Ambiguous", "Unmatched", "Manual Review", "Allocated"]
         policy_number: DF.Data | None
         reconciliation_status: DF.Literal["", "Unallocated", "Partially Allocated", "Fully Allocated", "On Account", "Disputed", "Reversed"]
-        source_business_type: DF.Data | None
         source_data_import: DF.Link | None
-        source_endorsement_reference: DF.Data | None
-        source_product: DF.Data | None
-        source_proposal_number: DF.Data | None
-        source_row_number: DF.Int
         source_staging: DF.Link
-        source_transaction_reference: DF.Data | None
-        source_version_number: DF.Data | None
         start_date: DF.Date | None
         statement_month: DF.Date | None
-        suggested_policy_register: DF.Link | None
         unallocated_brokerage: DF.Currency
     # end: auto-generated types
 
