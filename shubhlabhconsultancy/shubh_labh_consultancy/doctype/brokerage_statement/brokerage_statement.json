@@ -37,7 +37,19 @@
   "source_endorsement_reference",
   "source_version_number",
   "source_business_type",
-  "source_product"
+  "source_product",
+  "reconciliation_tab",
+  "matching_result_section",
+  "matching_status",
+  "suggested_policy_register",
+  "column_break_aewp",
+  "match_method",
+  "match_score",
+  "match_details",
+  "matching_audit_section",
+  "last_match_run_by",
+  "column_break_eruo",
+  "last_match_run_on"
  ],
  "fields": [
   {
@@ -232,13 +244,82 @@
    "fieldname": "source_product",
    "fieldtype": "Data",
    "label": "Source Product"
+  },
+  {
+   "fieldname": "reconciliation_tab",
+   "fieldtype": "Tab Break",
+   "label": "Reconciliation"
+  },
+  {
+   "fieldname": "matching_result_section",
+   "fieldtype": "Section Break",
+   "label": "Matching Result"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "matching_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Matching Status",
+   "options": "\nPending\nExact Match\nSuggested Match\nAmbiguous\nUnmatched\nManual Review\nAllocated"
+  },
+  {
+   "description": "Best candidate identified by the matching engine. Actual allocation is stored in Brokerage Allocation.",
+   "fieldname": "suggested_policy_register",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Suggested Policy Register",
+   "options": "Policy Register"
+  },
+  {
+   "fieldname": "column_break_aewp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "match_method",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Match Method",
+   "options": "\nExact Policy\nEndorsement\nExact Policy\nScored Match\nManual Match"
+  },
+  {
+   "fieldname": "match_score",
+   "fieldtype": "Percent",
+   "label": "Match Score"
+  },
+  {
+   "description": "Matching rules, candidate count and reasons used to determine the result.",
+   "fieldname": "match_details",
+   "fieldtype": "Small Text",
+   "label": "Match Details"
+  },
+  {
+   "fieldname": "matching_audit_section",
+   "fieldtype": "Section Break",
+   "label": "Matching Audit"
+  },
+  {
+   "fieldname": "last_match_run_by",
+   "fieldtype": "Link",
+   "label": "Last Match Run By",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_eruo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_match_run_on",
+   "fieldtype": "Datetime",
+   "label": "Last Match Run On"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-23 18:33:23.073792",
+ "modified": "2026-07-25 10:48:17.068046",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "Brokerage Statement",

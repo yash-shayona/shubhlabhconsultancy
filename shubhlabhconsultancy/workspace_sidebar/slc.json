@@ -52,9 +52,33 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "boxes",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Brokerage Allocation",
+   "link_to": "Brokerage Allocation",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "shield-check",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Insurer Matching Profile",
+   "link_to": "Insurer Matching Profile",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
   }
  ],
- "modified": "2026-07-25 10:08:21.130395",
+ "modified": "2026-07-25 11:04:06.466123",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "SLC",
