@@ -17,6 +17,17 @@ FINAL_DOCTYPE = "Brokerage Statement"
 
 COMMIT_BATCH_SIZE = 50
 
+# These actual DocType fields decide Brokerage Statement duplicate fingerprint.
+BROKERAGE_STATEMENT_FINGERPRINT_FIELDS = (
+    "statement_month",
+    "normalized_policy_number",
+    "normalized_insurer_name",
+    "normalized_customer_name",
+    "start_date",
+    "expiry_date",
+    "brokerage_received",
+)
+
 # Abhi sirf completely valid rows post hongi.
 # Warning approval flow future phase me add kar sakte hain.
 POSTABLE_VALIDATION_STATUSES = ("Valid",)
@@ -649,18 +660,33 @@ def _get_validation_result(
 
     normalized_customer_name = _normalize_value(customer_name)
 
+    # These values are set on the in-memory document so fingerprint helper can read by fieldname.
+    staging.statement_month = statement_month
+    staging.start_date = start_date
+    staging.expiry_date = expiry_date
+    staging.brokerage_received = brokerage_received
+    staging.normalized_policy_number = normalized_policy_number
+    staging.normalized_insurer_name = normalized_insurer_name
+    staging.normalized_customer_name = normalized_customer_name
+
     record_fingerprint = ""
 
+    # This keeps the existing rule using statement month, policy, insurer, customer, dates and amount.
     if normalized_policy_number and normalized_insurer_name:
         record_fingerprint = _make_record_fingerprint(
-            statement_month=statement_month,
-            normalized_policy_number=(normalized_policy_number),
-            normalized_insurer_name=(normalized_insurer_name),
-            normalized_customer_name=(normalized_customer_name),
-            start_date=start_date,
-            expiry_date=expiry_date,
-            brokerage_received=brokerage_received,
+            staging,
+            BROKERAGE_STATEMENT_FINGERPRINT_FIELDS,
         )
+
+    # This blocks duplicate staging/final statement rows before posting.
+    duplicate_message = _get_duplicate_fingerprint_message(
+        staging=staging,
+        record_fingerprint=record_fingerprint,
+        final_doctype=FINAL_DOCTYPE,
+    )
+
+    if duplicate_message:
+        errors.append(duplicate_message)
 
     if errors:
         validation_status = "Invalid"
@@ -680,7 +706,7 @@ def _get_validation_result(
         "processing_status": processing_status,
         "validation_messages": "\n".join(validation_messages),
         "has_warning": 0,
-        "is_duplicate": 0,
+        "is_duplicate": 1 if duplicate_message else 0,
     }
 
 
@@ -711,6 +737,10 @@ def _create_brokerage_statement(
             "reconciliation_status": "Unallocated",
             "source_staging": staging.name,
             "source_data_import": source_data_import,
+            "normalized_policy_number": staging.normalized_policy_number,
+            "normalized_insurer_name": staging.normalized_insurer_name,
+            "normalized_customer_name": staging.normalized_customer_name,
+            "record_fingerprint": staging.record_fingerprint,
         }
     )
 
@@ -840,36 +870,69 @@ def _normalize_value(value) -> str:
     )
 
 
+# This creates fingerprint from configured fieldnames by reading values from the document.
 def _make_record_fingerprint(
-    statement_month,
-    normalized_policy_number: str,
-    normalized_insurer_name: str,
-    normalized_customer_name: str,
-    start_date,
-    expiry_date,
-    brokerage_received: Decimal | None,
+    record: Document,
+    fingerprint_fields: tuple[str, ...],
 ) -> str:
-    normalized_amount = ""
-
-    if brokerage_received is not None:
-        normalized_amount = format(
-            brokerage_received.normalize(),
-            "f",
-        )
-
     raw_value = "|".join(
-        (
-            cstr(statement_month),
-            normalized_policy_number,
-            normalized_insurer_name,
-            normalized_customer_name,
-            cstr(start_date),
-            cstr(expiry_date),
-            normalized_amount,
-        )
+        _normalize_fingerprint_part(record.get(fieldname))
+        for fieldname in fingerprint_fields
     )
 
     return hashlib.sha256(raw_value.encode("utf-8")).hexdigest()
+
+
+# This keeps amount formatting stable before it goes into the fingerprint.
+def _normalize_fingerprint_part(value) -> str:
+    if isinstance(value, Decimal):
+        return format(
+            value.normalize(),
+            "f",
+        )
+
+    return cstr(value)
+
+
+# This checks whether the same fingerprint already exists in staging or final records.
+def _get_duplicate_fingerprint_message(
+    staging: Document,
+    record_fingerprint: str,
+    final_doctype: str,
+) -> str:
+    if not record_fingerprint:
+        return ""
+
+    final_duplicate = frappe.db.get_value(
+        final_doctype,
+        {
+            "record_fingerprint": record_fingerprint,
+            "docstatus": ["<", 2],
+        },
+        "name",
+    )
+
+    if final_duplicate:
+        return _("Duplicate record already posted as {0} {1}.").format(
+            final_doctype,
+            final_duplicate,
+        )
+
+    staging_duplicate = frappe.db.get_value(
+        STAGING_DOCTYPE,
+        {
+            "record_fingerprint": record_fingerprint,
+            "name": ["!=", staging.name],
+            "ignore_record": 0,
+            "validation_status": ["!=", "Invalid"],
+        },
+        "name",
+    )
+
+    if staging_duplicate:
+        return _("Duplicate staging record found: {0}.").format(staging_duplicate)
+
+    return ""
 
 
 # -------------------------------------------------------------------------

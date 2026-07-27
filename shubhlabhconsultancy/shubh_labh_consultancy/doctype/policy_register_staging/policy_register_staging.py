@@ -18,6 +18,12 @@ FINAL_DOCTYPE = "Policy Register"
 COMMIT_BATCH_SIZE = 50
 POSTABLE_VALIDATION_STATUSES = ("Valid",)
 
+# These actual DocType fields decide Policy Register duplicate fingerprint.
+POLICY_REGISTER_FINGERPRINT_FIELDS = (
+    "normalized_policy_number",
+    "normalized_endorsement_number",
+)
+
 
 BUSINESS_FIELDS = (
     "business_month",
@@ -603,9 +609,18 @@ def _get_validation_result(staging: Document) -> dict:
 
     normalized_policy_number = _normalize_value(policy_number)
     normalized_endorsement_number = _normalize_value(endorsement_number)
+    normalized_insurer_name = _normalize_value(insurer_name)
+    normalized_customer_name = _normalize_value(customer_name)
+
+    # These values are set on the in-memory document so fingerprint helper can read by fieldname.
+    staging.normalized_policy_number = normalized_policy_number
+    staging.normalized_endorsement_number = normalized_endorsement_number
+    staging.normalized_insurer_name = normalized_insurer_name
+    staging.normalized_customer_name = normalized_customer_name
 
     record_fingerprint = ""
 
+    # This keeps the existing rule: normalized policy number + normalized endorsement number.
     if (
         not _is_blank_or_zero(policy_number)
         and not _is_blank_or_zero(endorsement_number)
@@ -613,9 +628,19 @@ def _get_validation_result(staging: Document) -> dict:
         and normalized_endorsement_number
     ):
         record_fingerprint = _make_record_fingerprint(
-            normalized_policy_number=normalized_policy_number,
-            normalized_endorsement_number=normalized_endorsement_number,
+            staging,
+            POLICY_REGISTER_FINGERPRINT_FIELDS,
         )
+
+    # This blocks duplicate staging/final policy rows before posting.
+    duplicate_message = _get_duplicate_fingerprint_message(
+        staging=staging,
+        record_fingerprint=record_fingerprint,
+        final_doctype=FINAL_DOCTYPE,
+    )
+
+    if duplicate_message:
+        errors.append(duplicate_message)
 
     if errors:
         validation_status = "Invalid"
@@ -634,14 +659,14 @@ def _get_validation_result(staging: Document) -> dict:
     return {
         "normalized_policy_number": normalized_policy_number,
         "normalized_endorsement_number": normalized_endorsement_number,
-        "normalized_insurer_name": "",
-        "normalized_customer_name": "",
+        "normalized_insurer_name": normalized_insurer_name,
+        "normalized_customer_name": normalized_customer_name,
         "record_fingerprint": record_fingerprint,
         "validation_status": validation_status,
         "validation_messages": "\n".join(validation_messages),
         "processing_status": processing_status,
         "has_warning": 1 if warnings else 0,
-        "is_duplicate": 0,
+        "is_duplicate": 1 if duplicate_message else 0,
     }
 
 
@@ -682,6 +707,11 @@ def _create_policy_register(
             "campaign_name": staging.campaign_name,
             "source_staging": staging.name,
             "source_data_import": source_data_import,
+            "normalized_policy_number": staging.normalized_policy_number,
+            "normalized_endorsement_number": staging.normalized_endorsement_number,
+            "normalized_insurer_name": staging.normalized_insurer_name,
+            "normalized_customer_name": staging.normalized_customer_name,
+            "record_fingerprint": staging.record_fingerprint,
             "expected_brokerage": flt(staging.total_brokerage_and_reward),
             "settled_brokerage": 0,
             "written_off_brokerage": 0,
@@ -778,18 +808,56 @@ def _normalize_value(value) -> str:
     )
 
 
+# This creates fingerprint from configured fieldnames by reading values from the document.
 def _make_record_fingerprint(
-    normalized_policy_number: str,
-    normalized_endorsement_number: str,
+    record: Document, fingerprint_fields: tuple[str, ...]
 ) -> str:
     raw_value = "|".join(
-        (
-            normalized_policy_number,
-            normalized_endorsement_number,
-        )
+        cstr(record.get(fieldname)) for fieldname in fingerprint_fields
     )
 
     return hashlib.sha256(raw_value.encode("utf-8")).hexdigest()
+
+
+# This checks whether the same fingerprint already exists in staging or final records.
+def _get_duplicate_fingerprint_message(
+    staging: Document,
+    record_fingerprint: str,
+    final_doctype: str,
+) -> str:
+    if not record_fingerprint:
+        return ""
+
+    final_duplicate = frappe.db.get_value(
+        final_doctype,
+        {
+            "record_fingerprint": record_fingerprint,
+            "docstatus": ["<", 2],
+        },
+        "name",
+    )
+
+    if final_duplicate:
+        return _("Duplicate record already posted as {0} {1}.").format(
+            final_doctype,
+            final_duplicate,
+        )
+
+    staging_duplicate = frappe.db.get_value(
+        STAGING_DOCTYPE,
+        {
+            "record_fingerprint": record_fingerprint,
+            "name": ["!=", staging.name],
+            "ignore_record": 0,
+            "validation_status": ["!=", "Invalid"],
+        },
+        "name",
+    )
+
+    if staging_duplicate:
+        return _("Duplicate staging record found: {0}.").format(staging_duplicate)
+
+    return ""
 
 
 # -------------------------------------------------------------------------
