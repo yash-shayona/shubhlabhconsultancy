@@ -5,6 +5,7 @@ frappe.ui.form.on("Brokerage Reconciliation", {
 	refresh(frm) {
 		add_reconciliation_actions(frm);
 		register_reconciliation_realtime(frm);
+		set_insurer_name_query(frm);
 	},
 });
 
@@ -88,5 +89,15 @@ function register_reconciliation_realtime(frm) {
 		});
 
 		frm.reload_doc();
+	});
+}
+
+function set_insurer_name_query(frm) {
+	frm.set_query("insurer_name", () => {
+		return {
+			filters: {
+				enabled: 1,
+			},
+		};
 	});
 }

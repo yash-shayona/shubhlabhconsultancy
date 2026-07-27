@@ -52,6 +52,9 @@ class BrokerageReconciliation(Document):
         if self.statement_month and getdate(self.statement_month).day != 1:
             frappe.throw(_("Statement Month must be the first date of the month."))
 
+        if flt(self.amount_tolerance) < 0:
+            frappe.throw(_("Amount Tolerance cannot be negative."))
+
     # This confirms the reconciliation after automatic settlements are already submitted.
     def on_submit(self):
         submitted_settlements = frappe.get_all(
@@ -245,26 +248,66 @@ def _generate_match_suggestions(reconciliation: Document) -> dict:
             if policy_remaining <= 0:
                 continue
 
-            suggested_amount = min(policy_remaining, statement_remaining)
+            settlement_amounts = _get_suggested_settlement_amounts(
+                reconciliation=reconciliation,
+                policy_remaining=policy_remaining,
+                statement_remaining=statement_remaining,
+            )
 
             _create_draft_settlement(
                 reconciliation=reconciliation,
                 policy=policy,
                 statement=statement,
-                suggested_amount=suggested_amount,
+                allocated_amount=settlement_amounts["allocated_amount"],
+                write_off_amount=settlement_amounts["write_off_amount"],
+                remarks=settlement_amounts["remarks"],
                 match_method=match_result["match_method"],
                 match_score=match_result["match_score"],
             )
 
             summary["created"] += 1
             created_for_statement += 1
-            statement_remaining -= suggested_amount
-            policy.outstanding_brokerage = policy_remaining - suggested_amount
+            statement_remaining -= settlement_amounts["allocated_amount"]
+            policy.outstanding_brokerage = (
+                policy_remaining
+                - settlement_amounts["allocated_amount"]
+                - settlement_amounts["write_off_amount"]
+            )
 
         if not created_for_statement:
             summary["unmatched"] += 1
 
     return summary
+
+
+# This suggests allocation and small write-off amounts from the reconciliation tolerance.
+def _get_suggested_settlement_amounts(
+    reconciliation: Document,
+    policy_remaining: float,
+    statement_remaining: float,
+) -> dict:
+    allocated_amount = min(policy_remaining, statement_remaining)
+    write_off_amount = 0
+    remarks = ""
+
+    policy_balance_after_allocation = policy_remaining - allocated_amount
+    amount_tolerance = flt(reconciliation.amount_tolerance)
+
+    # This closes small policy differences when they are within the configured tolerance.
+    if (
+        allocated_amount > 0
+        and policy_balance_after_allocation > 0
+        and amount_tolerance > 0
+        and policy_balance_after_allocation <= amount_tolerance
+    ):
+        write_off_amount = policy_balance_after_allocation
+        remarks = _("Auto write-off within amount tolerance.")
+
+    return {
+        "allocated_amount": allocated_amount,
+        "write_off_amount": write_off_amount,
+        "remarks": remarks,
+    }
 
 
 # This checks matching methods one by one and returns the first valid match.
@@ -309,7 +352,9 @@ def _create_draft_settlement(
     reconciliation: Document,
     policy,
     statement,
-    suggested_amount: float,
+    allocated_amount: float,
+    write_off_amount: float = 0,
+    remarks: str = "",
     match_method: str = "Exact Policy Number",
     match_score: float = 100,
 ):
@@ -321,11 +366,11 @@ def _create_draft_settlement(
             "settlement_type": "Regular",
             "policy_register": policy.name,
             "brokerage_statement": statement.name,
-            "allocated_amount": suggested_amount,
-            "write_off_amount": 0,
+            "allocated_amount": allocated_amount,
+            "write_off_amount": write_off_amount,
             "match_method": match_method,
             "match_score": match_score,
-            "remarks": "",
+            "remarks": remarks,
         }
     )
 
