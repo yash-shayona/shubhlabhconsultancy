@@ -20,8 +20,12 @@ class BrokerageStatement(Document):
         customer_name: DF.Data | None
         expiry_date: DF.Date | None
         insurer_name: DF.Link | None
+        normalized_customer_name: DF.Data | None
+        normalized_insurer_name: DF.Data | None
+        normalized_policy_number: DF.Data | None
         policy_number: DF.Data | None
         reconciliation_status: DF.Literal["", "Unallocated", "Partially Allocated", "Fully Allocated", "On Account", "Disputed", "Reversed"]
+        record_fingerprint: DF.Data | None
         source_data_import: DF.Link | None
         source_staging: DF.Link
         start_date: DF.Date | None

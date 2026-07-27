@@ -50,7 +50,14 @@
   "source_references_section",
   "source_staging",
   "column_break_ravt",
-  "source_data_import"
+  "source_data_import",
+  "matching_duplicate_control_section",
+  "normalized_policy_number",
+  "normalized_endorsement_number",
+  "column_break_wcvq",
+  "normalized_insurer_name",
+  "normalized_customer_name",
+  "record_fingerprint"
  ],
  "fields": [
   {
@@ -78,19 +85,22 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Business Month",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "financial_year",
    "fieldtype": "Data",
    "label": "Financial Year",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "cno",
    "fieldtype": "Int",
    "label": "CNO",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_efkd",
@@ -102,13 +112,15 @@
    "in_standard_filter": 1,
    "label": "Business Type",
    "options": "\nNew\nRenewal",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "campaign_name",
    "fieldtype": "Data",
    "label": "Campaign Name",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "policy_details_section",
@@ -119,7 +131,8 @@
    "fieldname": "policy_type",
    "fieldtype": "Data",
    "label": "Policy Type",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "bold": 1,
@@ -128,13 +141,15 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Policy Number",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "endorsement_number",
    "fieldtype": "Data",
    "label": "Endorsement Number",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_bptx",
@@ -144,20 +159,23 @@
    "fieldname": "start_date",
    "fieldtype": "Date",
    "label": "Start Date",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "expiry_date",
    "fieldtype": "Date",
    "label": "Expiry Date",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "0",
    "fieldname": "share_percentage",
    "fieldtype": "Percent",
    "label": "Share Percentage",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "insurer_customer_details_section",
@@ -171,7 +189,8 @@
    "in_standard_filter": 1,
    "label": "Insurer Name",
    "options": "Insurer",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_wqlt",
@@ -181,7 +200,8 @@
    "fieldname": "customer_name",
    "fieldtype": "Data",
    "label": "Customer Name",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "brokerage_calculation_section",
@@ -193,21 +213,24 @@
    "fieldname": "brokerage_premium",
    "fieldtype": "Currency",
    "label": "Brokerage Premium",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "0",
    "fieldname": "brokerage_percentage",
    "fieldtype": "Percent",
    "label": "Brokerage Percentage",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "0",
    "fieldname": "brokerage_amount",
    "fieldtype": "Currency",
    "label": "Brokerage Amount",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_bzxm",
@@ -218,21 +241,24 @@
    "fieldname": "tp_premium",
    "fieldtype": "Currency",
    "label": "TP Premium",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "0",
    "fieldname": "tp_brokerage_percentage",
    "fieldtype": "Percent",
    "label": "TP Brokerage Percentage",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "0",
    "fieldname": "tp_brokerage_amount",
    "fieldtype": "Currency",
    "label": "TP Brokerage Amount",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "brokerage_receivable_summary_section",
@@ -244,14 +270,16 @@
    "fieldname": "total_brokerage",
    "fieldtype": "Currency",
    "label": "Total Brokerage",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "0",
    "fieldname": "total_brokerage_and_reward",
    "fieldtype": "Currency",
    "label": "Total Brokerage and Reward",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_ccwu",
@@ -263,7 +291,8 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Expected Brokerage",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "reconciliation_summary_section",
@@ -275,14 +304,16 @@
    "fieldname": "settled_brokerage",
    "fieldtype": "Currency",
    "label": "Settled Brokerage",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "0",
    "fieldname": "written_off_brokerage",
    "fieldtype": "Currency",
    "label": "Written-off Brokerage",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_ruyg",
@@ -294,7 +325,8 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Outstanding Brokerage",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "Pending",
@@ -304,7 +336,8 @@
    "in_standard_filter": 1,
    "label": "Reconciliation Status",
    "options": "\nPending\nPartially Settled\nFully Settled\nWritten Off\nExcess Received\nDisputed\nReversed",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "source_references_section",
@@ -320,7 +353,8 @@
    "options": "Policy Register Staging",
    "read_only": 1,
    "reqd": 1,
-   "unique": 1
+   "unique": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_ravt",
@@ -331,14 +365,65 @@
    "fieldtype": "Link",
    "label": "Source Data Import",
    "options": "Data Import",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "matching_duplicate_control_section",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Matching & Duplicate Control"
+  },
+  {
+   "fieldname": "normalized_policy_number",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Normalized Policy Number",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "normalized_endorsement_number",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Normalized Endorsement Number",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "column_break_wcvq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "normalized_insurer_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Normalized Insurer Name",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "normalized_customer_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Normalized Customer Name",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "record_fingerprint",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Record Fingerprint",
+   "read_only": 1,
+   "no_copy": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-27 12:35:55.316360",
+ "modified": "2026-07-27 16:39:35.666489",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "Policy Register",

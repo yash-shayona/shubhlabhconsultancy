@@ -249,7 +249,8 @@
    "in_standard_filter": 1,
    "label": "Validation Status",
    "options": "\nPending\nValid\nWarning\nInvalid",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "Not Processed",
@@ -257,7 +258,8 @@
    "fieldtype": "Select",
    "in_standard_filter": 1,
    "label": "Processing Status",
-   "options": "\nNot Processed\nReady\nProcessing\nProcessed\nIgnored\nFailed"
+   "options": "\nNot Processed\nReady\nProcessing\nProcessed\nIgnored\nFailed",
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_puzt",
@@ -269,7 +271,8 @@
    "fieldtype": "Check",
    "in_standard_filter": 1,
    "label": "Has Warning",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "0",
@@ -277,7 +280,8 @@
    "fieldtype": "Check",
    "in_standard_filter": 1,
    "label": "Is Duplicate",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "section_break_aenk",
@@ -287,7 +291,8 @@
    "fieldname": "validation_messages",
    "fieldtype": "Small Text",
    "label": "Validation Messages",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "collapsible": 1,
@@ -299,13 +304,15 @@
    "fieldname": "normalized_policy_number",
    "fieldtype": "Data",
    "label": "Normalized Policy Number",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "normalized_endorsement_number",
    "fieldtype": "Data",
    "label": "Normalized Endorsement Number",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_tvgi",
@@ -315,13 +322,15 @@
    "fieldname": "normalized_insurer_name",
    "fieldtype": "Data",
    "label": "Normalized Insurer Name",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "normalized_customer_name",
    "fieldtype": "Data",
    "label": "Normalized Customer Name",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "section_break_dqbv",
@@ -331,7 +340,8 @@
    "fieldname": "record_fingerprint",
    "fieldtype": "Data",
    "label": "Record Fingerprint",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "exception_handling_section",
@@ -343,7 +353,8 @@
    "fieldname": "ignore_record",
    "fieldtype": "Check",
    "in_standard_filter": 1,
-   "label": "Ignore Record"
+   "label": "Ignore Record",
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_zoqh",
@@ -354,7 +365,8 @@
    "fieldname": "ignore_reason",
    "fieldtype": "Small Text",
    "label": "Ignore Reason",
-   "mandatory_depends_on": "eval:doc.ignore_record == 1"
+   "mandatory_depends_on": "eval:doc.ignore_record == 1",
+   "no_copy": 1
   },
   {
    "fieldname": "posting_audit_details_section",
@@ -367,7 +379,8 @@
    "in_standard_filter": 1,
    "label": "Posted Policy Register",
    "options": "Policy Register",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_ecwg",
@@ -378,13 +391,15 @@
    "fieldtype": "Link",
    "label": "Processed By",
    "options": "User",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "processed_on",
    "fieldtype": "Datetime",
    "label": "Processed On",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   }
  ],
  "grid_page_length": 50,

@@ -21,7 +21,8 @@
    "in_standard_filter": 1,
    "label": "Insurer Name",
    "reqd": 1,
-   "unique": 1
+   "unique": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "insurer_code",
@@ -30,7 +31,8 @@
    "in_standard_filter": 1,
    "label": "Insurer Code",
    "reqd": 1,
-   "unique": 1
+   "unique": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_xqgn",

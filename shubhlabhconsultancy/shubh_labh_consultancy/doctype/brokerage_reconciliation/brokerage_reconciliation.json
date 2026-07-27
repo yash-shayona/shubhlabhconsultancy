@@ -101,7 +101,8 @@
    "in_standard_filter": 1,
    "label": "Status",
    "options": "\nDraft\nMatching\nReview Required\nReady to Submit\nCompleted\nCancelled",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "remarks",
@@ -117,41 +118,47 @@
    "fieldname": "last_matching_started_on",
    "fieldtype": "Datetime",
    "label": "Last Matching Started On",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "last_matching_completed_on",
    "fieldtype": "Datetime",
    "label": "Last Matching Completed On",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "0",
    "fieldname": "statements_checked",
    "fieldtype": "Int",
    "label": "Statements Checked",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "0",
    "fieldname": "settlements_submitted",
    "fieldtype": "Int",
    "label": "Settlements Submitted",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "0",
    "fieldname": "unmatched_statements",
    "fieldtype": "Int",
    "label": "Unmatched Statements",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "0",
    "fieldname": "failed_records",
    "fieldtype": "Int",
    "label": "Failed Records",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_qtnj",

@@ -28,7 +28,13 @@
   "source_references_section",
   "source_staging",
   "column_break_uzkc",
-  "source_data_import"
+  "source_data_import",
+  "matching_duplicate_control_section",
+  "normalized_policy_number",
+  "normalized_insurer_name",
+  "column_break_qaaf",
+  "normalized_customer_name",
+  "record_fingerprint"
  ],
  "fields": [
   {
@@ -56,7 +62,8 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Statement Month",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_hdim",
@@ -74,13 +81,15 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Policy Number",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "customer_name",
    "fieldtype": "Data",
    "label": "Customer Name",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_iias",
@@ -90,13 +99,15 @@
    "fieldname": "start_date",
    "fieldtype": "Date",
    "label": "Start Date",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "expiry_date",
    "fieldtype": "Date",
    "label": "Expiry Date",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "brokerage_receipt_allocation_section",
@@ -109,14 +120,16 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Brokerage Received",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "0",
    "fieldname": "allocated_brokerage",
    "fieldtype": "Currency",
    "label": "Allocated Brokerage",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_dtyn",
@@ -128,7 +141,8 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Unallocated Brokerage",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "default": "Unallocated",
@@ -138,7 +152,8 @@
    "in_standard_filter": 1,
    "label": "Reconciliation Status",
    "options": "\nUnallocated\nPartially Allocated\nFully Allocated\nOn Account\nDisputed\nReversed",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "source_references_section",
@@ -154,7 +169,8 @@
    "options": "Brokerage Statement Staging",
    "read_only": 1,
    "reqd": 1,
-   "unique": 1
+   "unique": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "column_break_uzkc",
@@ -165,7 +181,8 @@
    "fieldtype": "Link",
    "label": "Source Data Import",
    "options": "Data Import",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "insurer_name",
@@ -174,14 +191,57 @@
    "in_standard_filter": 1,
    "label": "Insurer Name",
    "options": "Insurer",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "matching_duplicate_control_section",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Matching & Duplicate Control"
+  },
+  {
+   "fieldname": "normalized_policy_number",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Normalized Policy Number",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "normalized_insurer_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Normalized Insurer Name",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "column_break_qaaf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "normalized_customer_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Normalized Customer Name",
+   "no_copy": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "record_fingerprint",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Record Fingerprint",
+   "read_only": 1,
+   "no_copy": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-25 15:54:20.671202",
+ "modified": "2026-07-27 16:39:59.426773",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "Brokerage Statement",
