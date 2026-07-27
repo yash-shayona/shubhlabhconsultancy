@@ -166,10 +166,11 @@
   },
   {
    "fieldname": "insurer_name",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Insurer Name",
+   "options": "Insurer",
    "read_only": 1
   },
   {
@@ -337,7 +338,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-23 11:32:26.396329",
+ "modified": "2026-07-27 12:35:55.316360",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "Policy Register",

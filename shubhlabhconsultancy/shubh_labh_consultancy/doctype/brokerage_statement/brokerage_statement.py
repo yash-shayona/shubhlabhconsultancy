@@ -17,9 +17,9 @@ class BrokerageStatement(Document):
         allocated_brokerage: DF.Currency
         amended_from: DF.Link | None
         brokerage_received: DF.Currency
-        company_name: DF.Data | None
         customer_name: DF.Data | None
         expiry_date: DF.Date | None
+        insurer_name: DF.Link | None
         policy_number: DF.Data | None
         reconciliation_status: DF.Literal["", "Unallocated", "Partially Allocated", "Fully Allocated", "On Account", "Disputed", "Reversed"]
         source_data_import: DF.Link | None

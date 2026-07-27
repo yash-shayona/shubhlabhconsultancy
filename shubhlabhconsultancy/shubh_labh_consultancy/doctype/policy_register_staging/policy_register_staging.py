@@ -67,7 +67,7 @@ class PolicyRegisterStaging(Document):
         has_warning: DF.Check
         ignore_reason: DF.SmallText | None
         ignore_record: DF.Check
-        insurer_name: DF.Data | None
+        insurer_name: DF.Link | None
         is_duplicate: DF.Check
         normalized_customer_name: DF.Data | None
         normalized_endorsement_number: DF.Data | None
@@ -557,6 +557,7 @@ def _get_validation_result(staging: Document) -> dict:
     """
 
     errors: list[str] = []
+    warnings: list[str] = []
 
     policy_type = cstr(staging.policy_type).strip()
     policy_number = cstr(staging.policy_number).strip()
@@ -579,7 +580,7 @@ def _get_validation_result(staging: Document) -> dict:
     # Endorsement Number has no format rule, but a meaningful value is required
     # because Phase 1 fingerprint is Policy Number + Endorsement Number.
     if _is_blank_or_zero(endorsement_number):
-        errors.append(
+        warnings.append(
             _(
                 "Endorsement Number is required and cannot be zero because "
                 "it is used to generate the record fingerprint."
@@ -619,11 +620,16 @@ def _get_validation_result(staging: Document) -> dict:
     if errors:
         validation_status = "Invalid"
         processing_status = "Not Processed"
+    elif warnings:
+        validation_status = "Warning"
+        processing_status = "Ready"
     else:
         validation_status = "Valid"
         processing_status = "Ready"
 
-    validation_messages = [_("ERROR: {0}").format(message) for message in errors]
+    validation_messages = [_("ERROR: {0}").format(message) for message in errors] + [
+        _("WARNING: {0}").format(message) for message in warnings
+    ]
 
     return {
         "normalized_policy_number": normalized_policy_number,
@@ -634,7 +640,7 @@ def _get_validation_result(staging: Document) -> dict:
         "validation_status": validation_status,
         "validation_messages": "\n".join(validation_messages),
         "processing_status": processing_status,
-        "has_warning": 0,
+        "has_warning": 1 if warnings else 0,
         "is_duplicate": 0,
     }
 

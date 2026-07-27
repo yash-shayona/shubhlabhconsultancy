@@ -1,0 +1,225 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "BST-.YYYY.-.#####",
+ "creation": "2026-07-27 10:37:42.289083",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_sdmq",
+  "amended_from",
+  "section_break_fake",
+  "brokerage_reconciliation",
+  "settlement_date",
+  "settlement_type",
+  "column_break_peks",
+  "match_method",
+  "match_score",
+  "section_break_oquv",
+  "policy_register",
+  "brokerage_statement",
+  "column_break_lzks",
+  "reverses_settlement",
+  "amount_snapshot_section",
+  "policy_expected_amount",
+  "policy_outstanding_before",
+  "column_break_dzjj",
+  "statement_received_amount",
+  "statement_unallocated_before",
+  "amount_allocation_section",
+  "allocated_amount",
+  "write_off_amount",
+  "difference_amount",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_sdmq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Brokerage Settlement",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_break_fake",
+   "fieldtype": "Section Break",
+   "label": "Settlement Details"
+  },
+  {
+   "fieldname": "brokerage_reconciliation",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Brokerage Reconciliation",
+   "options": "Brokerage Reconciliation",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "settlement_date",
+   "fieldtype": "Date",
+   "label": "Settlement Date",
+   "reqd": 1
+  },
+  {
+   "default": "Regular",
+   "fieldname": "settlement_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Settlement Type",
+   "options": "\nRegular\nWrite Off\nAdjustment\nReversal",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_peks",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "match_method",
+   "fieldtype": "Select",
+   "label": "Match Method",
+   "options": "\nExact Policy Number\nFormatted Policy Number\nPolicy and Customer\nCustomer and Dates\nManual"
+  },
+  {
+   "fieldname": "match_score",
+   "fieldtype": "Percent",
+   "label": "Match Score",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_oquv",
+   "fieldtype": "Section Break",
+   "label": "Link Details"
+  },
+  {
+   "fieldname": "policy_register",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Policy Register",
+   "options": "Policy Register"
+  },
+  {
+   "fieldname": "brokerage_statement",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Brokerage Statement",
+   "options": "Brokerage Statement"
+  },
+  {
+   "fieldname": "column_break_lzks",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reverses_settlement",
+   "fieldtype": "Link",
+   "label": "Reverses Settlement",
+   "options": "Brokerage Settlement"
+  },
+  {
+   "fieldname": "policy_expected_amount",
+   "fieldtype": "Currency",
+   "label": "Policy Expected Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "policy_outstanding_before",
+   "fieldtype": "Currency",
+   "label": "Policy Outstanding Before",
+   "read_only": 1
+  },
+  {
+   "fieldname": "statement_received_amount",
+   "fieldtype": "Currency",
+   "label": "Statement Received Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_dzjj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "statement_unallocated_before",
+   "fieldtype": "Currency",
+   "label": "Statement Unallocated Before",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "allocated_amount",
+   "fieldtype": "Currency",
+   "label": "Allocated Amount"
+  },
+  {
+   "default": "0",
+   "fieldname": "write_off_amount",
+   "fieldtype": "Currency",
+   "label": "Write-off Amount"
+  },
+  {
+   "default": "0",
+   "fieldname": "difference_amount",
+   "fieldtype": "Currency",
+   "label": "Difference Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "amount_snapshot_section",
+   "fieldtype": "Section Break",
+   "label": "Amount Snapshot Section"
+  },
+  {
+   "fieldname": "amount_allocation_section",
+   "fieldtype": "Section Break",
+   "label": "Amount Allocation"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-07-27 15:51:07.950621",
+ "modified_by": "Administrator",
+ "module": "Shubh Labh Consultancy",
+ "name": "Brokerage Settlement",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "search_fields": "brokerage_reconciliation, policy_register, brokerage_statement, settlement_type",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "policy_register",
+ "track_changes": 1
+}

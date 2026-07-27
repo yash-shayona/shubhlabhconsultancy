@@ -178,10 +178,11 @@
   },
   {
    "fieldname": "insurer_name",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Insurer Name"
+   "label": "Insurer Name",
+   "options": "Insurer"
   },
   {
    "fieldname": "customer_name",
@@ -389,7 +390,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-23 11:28:50.448257",
+ "modified": "2026-07-27 12:40:46.684030",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "Policy Register Staging",

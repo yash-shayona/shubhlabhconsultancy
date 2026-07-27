@@ -12,7 +12,7 @@
   "statement_details_section",
   "statement_month",
   "column_break_hdim",
-  "company_name",
+  "insurer_name",
   "policy_customer_details_section",
   "policy_number",
   "customer_name",
@@ -61,14 +61,6 @@
   {
    "fieldname": "column_break_hdim",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "company_name",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Company Name",
-   "read_only": 1
   },
   {
    "fieldname": "policy_customer_details_section",
@@ -174,13 +166,22 @@
    "label": "Source Data Import",
    "options": "Data Import",
    "read_only": 1
+  },
+  {
+   "fieldname": "insurer_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Insurer Name",
+   "options": "Insurer",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-25 15:14:19.721388",
+ "modified": "2026-07-25 15:54:20.671202",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "Brokerage Statement",
@@ -204,7 +205,7 @@
  ],
  "row_format": "Dynamic",
  "rows_threshold_for_grid_search": 20,
- "search_fields": "policy_number, company_name, customer_name",
+ "search_fields": "policy_number, insurer_name, customer_name",
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": [],

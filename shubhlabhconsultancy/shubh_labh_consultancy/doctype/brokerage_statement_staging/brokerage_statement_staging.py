@@ -24,7 +24,7 @@ POSTABLE_VALIDATION_STATUSES = ("Valid",)
 
 BUSINESS_FIELDS = (
     "statement_month",
-    "company_name",
+    "insurer_name",
     "policy_number",
     "customer_name",
     "start_date",
@@ -43,23 +43,21 @@ class BrokerageStatementStaging(Document):
         from frappe.types import DF
 
         brokerage_received: DF.Currency
-        company_name: DF.Data | None
         customer_name: DF.Data | None
         expiry_date: DF.Date | None
         has_warning: DF.Check
         ignore_reason: DF.SmallText | None
         ignore_record: DF.Check
+        insurer_name: DF.Link | None
         is_duplicate: DF.Check
-        normalized_company_name: DF.Data | None
         normalized_customer_name: DF.Data | None
+        normalized_insurer_name: DF.Data | None
         normalized_policy_number: DF.Data | None
         policy_number: DF.Data | None
         posted_brokerage_statement: DF.Link | None
         processed_by: DF.Link | None
         processed_on: DF.Datetime | None
-        processing_status: DF.Literal[
-            "", "Not Processed", "Ready", "Processing", "Processed", "Ignored", "Failed"
-        ]
+        processing_status: DF.Literal["", "Not Processed", "Ready", "Processing", "Processed", "Ignored", "Failed"]
         record_fingerprint: DF.Data | None
         start_date: DF.Date | None
         statement_month: DF.Date | None
@@ -144,7 +142,7 @@ class BrokerageStatementStaging(Document):
         self.is_duplicate = 0
 
         self.normalized_policy_number = ""
-        self.normalized_company_name = ""
+        self.normalized_insurer_name = ""
         self.normalized_customer_name = ""
         self.record_fingerprint = ""
 
@@ -605,7 +603,7 @@ def _get_validation_result(
 
     policy_number = cstr(staging.policy_number).strip()
 
-    company_name = cstr(staging.company_name).strip()
+    insurer_name = cstr(staging.insurer_name).strip()
 
     customer_name = cstr(staging.customer_name).strip()
 
@@ -633,8 +631,8 @@ def _get_validation_result(
     if _is_blank_or_zero(policy_number):
         errors.append(_("Policy Number is required and cannot be zero."))
 
-    if not company_name:
-        errors.append(_("Company Name is missing."))
+    if not insurer_name:
+        errors.append(_("Insurer Name is missing."))
 
     if start_date and expiry_date and expiry_date < start_date:
         errors.append(_("Expiry Date is earlier than Start Date."))
@@ -647,17 +645,17 @@ def _get_validation_result(
 
     normalized_policy_number = _normalize_value(policy_number)
 
-    normalized_company_name = _normalize_value(company_name)
+    normalized_insurer_name = _normalize_value(insurer_name)
 
     normalized_customer_name = _normalize_value(customer_name)
 
     record_fingerprint = ""
 
-    if normalized_policy_number and normalized_company_name:
+    if normalized_policy_number and normalized_insurer_name:
         record_fingerprint = _make_record_fingerprint(
             statement_month=statement_month,
             normalized_policy_number=(normalized_policy_number),
-            normalized_company_name=(normalized_company_name),
+            normalized_insurer_name=(normalized_insurer_name),
             normalized_customer_name=(normalized_customer_name),
             start_date=start_date,
             expiry_date=expiry_date,
@@ -675,7 +673,7 @@ def _get_validation_result(
 
     return {
         "normalized_policy_number": (normalized_policy_number),
-        "normalized_company_name": (normalized_company_name),
+        "normalized_insurer_name": (normalized_insurer_name),
         "normalized_customer_name": (normalized_customer_name),
         "record_fingerprint": record_fingerprint,
         "validation_status": validation_status,
@@ -702,7 +700,7 @@ def _create_brokerage_statement(
         {
             "doctype": FINAL_DOCTYPE,
             "statement_month": (staging.statement_month),
-            "company_name": staging.company_name,
+            "insurer_name": staging.insurer_name,
             "policy_number": staging.policy_number,
             "customer_name": staging.customer_name,
             "start_date": staging.start_date,
@@ -845,7 +843,7 @@ def _normalize_value(value) -> str:
 def _make_record_fingerprint(
     statement_month,
     normalized_policy_number: str,
-    normalized_company_name: str,
+    normalized_insurer_name: str,
     normalized_customer_name: str,
     start_date,
     expiry_date,
@@ -863,7 +861,7 @@ def _make_record_fingerprint(
         (
             cstr(statement_month),
             normalized_policy_number,
-            normalized_company_name,
+            normalized_insurer_name,
             normalized_customer_name,
             cstr(start_date),
             cstr(expiry_date),
