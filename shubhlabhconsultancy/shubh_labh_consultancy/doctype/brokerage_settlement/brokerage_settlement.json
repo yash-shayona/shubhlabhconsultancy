@@ -98,7 +98,8 @@
    "fieldtype": "Percent",
    "label": "Match Score",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "default": "0"
   },
   {
    "fieldname": "section_break_oquv",
@@ -138,21 +139,24 @@
    "fieldtype": "Currency",
    "label": "Policy Expected Amount",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "default": "0"
   },
   {
    "fieldname": "policy_outstanding_before",
    "fieldtype": "Currency",
    "label": "Policy Outstanding Before",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "default": "0"
   },
   {
    "fieldname": "statement_received_amount",
    "fieldtype": "Currency",
    "label": "Statement Received Amount",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "default": "0"
   },
   {
    "fieldname": "column_break_dzjj",
@@ -163,7 +167,8 @@
    "fieldtype": "Currency",
    "label": "Statement Unallocated Before",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "default": "0"
   },
   {
    "default": "0",

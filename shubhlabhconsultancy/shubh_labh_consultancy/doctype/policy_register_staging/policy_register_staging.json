@@ -81,7 +81,8 @@
   {
    "fieldname": "cno",
    "fieldtype": "Int",
-   "label": "CNO"
+   "label": "CNO",
+   "default": "0"
   },
   {
    "fieldname": "policy_type",
@@ -114,7 +115,8 @@
   {
    "fieldname": "share_percentage",
    "fieldtype": "Percent",
-   "label": "Share Percentage"
+   "label": "Share Percentage",
+   "default": "0"
   },
   {
    "default": "0",

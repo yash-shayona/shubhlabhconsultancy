@@ -679,7 +679,8 @@ def _create_policy_register(
     staging: Document,
     requested_by: str,
 ) -> Document:
-    source_data_import = _get_source_data_import(staging.name)
+    source_data_import = _get_source_data_import(staging)
+    expected_brokerage = _get_expected_brokerage_from_staging(staging)
 
     policy_register = frappe.get_doc(
         {
@@ -712,10 +713,10 @@ def _create_policy_register(
             "normalized_insurer_name": staging.normalized_insurer_name,
             "normalized_customer_name": staging.normalized_customer_name,
             "record_fingerprint": staging.record_fingerprint,
-            "expected_brokerage": flt(staging.total_brokerage_and_reward),
+            "expected_brokerage": expected_brokerage,
             "settled_brokerage": 0,
             "written_off_brokerage": 0,
-            "outstanding_brokerage": flt(staging.total_brokerage_and_reward),
+            "outstanding_brokerage": expected_brokerage,
             "reconciliation_status": "Pending",
         }
     )
@@ -727,6 +728,16 @@ def _create_policy_register(
     policy_register.submit()
 
     return policy_register
+
+
+# This decides the receivable amount for Policy Register from staging totals.
+def _get_expected_brokerage_from_staging(staging: Document) -> float:
+    total_brokerage_and_reward = flt(staging.total_brokerage_and_reward)
+
+    if total_brokerage_and_reward:
+        return total_brokerage_and_reward
+
+    return flt(staging.total_brokerage)
 
 
 # -------------------------------------------------------------------------
@@ -780,12 +791,13 @@ def _mark_records_as_processing(record_names: list[str]):
         )
 
 
-def _get_source_data_import(staging_name: str) -> str | None:
+def _get_source_data_import(staging: Document) -> str | None:
     logs = frappe.get_all(
         "Data Import Log",
         filters={
-            "docname": staging_name,
+            "docname": staging.name,
             "success": 1,
+            "creation": [">=", staging.creation],
         },
         fields=["data_import"],
         order_by="creation desc",

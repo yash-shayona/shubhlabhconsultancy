@@ -100,7 +100,8 @@
    "fieldtype": "Int",
    "label": "CNO",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "default": "0"
   },
   {
    "fieldname": "column_break_efkd",

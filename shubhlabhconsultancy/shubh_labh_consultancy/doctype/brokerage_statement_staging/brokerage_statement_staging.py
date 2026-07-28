@@ -718,7 +718,7 @@ def _get_validation_result(
 def _create_brokerage_statement(
     staging: Document,
 ) -> Document:
-    source_data_import = _get_source_data_import(staging.name)
+    source_data_import = _get_source_data_import(staging)
 
     brokerage_received = flt(staging.brokerage_received)
 
@@ -831,13 +831,14 @@ def _mark_records_as_processing(
 
 
 def _get_source_data_import(
-    staging_name: str,
+    staging: Document,
 ) -> str | None:
     logs = frappe.get_all(
         "Data Import Log",
         filters={
-            "docname": staging_name,
+            "docname": staging.name,
             "success": 1,
+            "creation": [">=", staging.creation],
         },
         fields=[
             "data_import",
