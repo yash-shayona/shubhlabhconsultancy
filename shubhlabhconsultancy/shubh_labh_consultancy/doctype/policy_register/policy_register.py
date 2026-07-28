@@ -27,6 +27,7 @@ class PolicyRegister(Document):
         expected_brokerage: DF.Currency
         expiry_date: DF.Date | None
         financial_year: DF.Data | None
+        has_write_off: DF.Check
         insurer_name: DF.Link | None
         normalized_customer_name: DF.Data | None
         normalized_endorsement_number: DF.Data | None
@@ -35,7 +36,7 @@ class PolicyRegister(Document):
         outstanding_brokerage: DF.Currency
         policy_number: DF.Data | None
         policy_type: DF.Data | None
-        reconciliation_status: DF.Literal["", "Pending", "Partially Settled", "Fully Settled", "Written Off", "Excess Received", "Disputed", "Reversed"]
+        reconciliation_status: DF.Literal["", "Pending", "Partially Settled", "Fully Settled"]
         record_fingerprint: DF.Data | None
         settled_brokerage: DF.Currency
         share_percentage: DF.Percent

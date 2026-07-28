@@ -209,6 +209,7 @@ def recalculate_policy_register(policy_register_name: str | None):
         {
             "settled_brokerage": settled_brokerage,
             "written_off_brokerage": written_off_brokerage,
+            "has_write_off": 1 if written_off_brokerage else 0,
             "outstanding_brokerage": outstanding_brokerage,
             "reconciliation_status": _get_policy_reconciliation_status(
                 expected_brokerage,
@@ -266,13 +267,7 @@ def _get_policy_reconciliation_status(
     written_off_brokerage: float,
     outstanding_brokerage: float,
 ) -> str:
-    if outstanding_brokerage < 0:
-        return "Excess Received"
-
-    if outstanding_brokerage == 0 and written_off_brokerage:
-        return "Written Off"
-
-    if outstanding_brokerage == 0:
+    if outstanding_brokerage <= 0:
         return "Fully Settled"
 
     if settled_brokerage or written_off_brokerage:

@@ -161,6 +161,40 @@ def enqueue_generate_matches(reconciliation_name: str):
     }
 
 
+# This queues write-off generation so the browser request stays responsive.
+@frappe.whitelist()
+def enqueue_generate_write_offs(reconciliation_name: str):
+    reconciliation = frappe.get_doc("Brokerage Reconciliation", reconciliation_name)
+
+    _validate_generate_match_permissions(reconciliation)
+    _validate_reconciliation_can_generate_write_offs(reconciliation)
+    _delete_existing_draft_settlements(reconciliation.name)
+
+    frappe.db.set_value(
+        "Brokerage Reconciliation",
+        reconciliation.name,
+        "status",
+        "Matching",
+        update_modified=False,
+    )
+
+    requested_by = frappe.session.user
+
+    frappe.enqueue(
+        run_generate_write_offs,
+        queue="long",
+        timeout=1500,
+        enqueue_after_commit=True,
+        reconciliation_name=reconciliation.name,
+        requested_by=requested_by,
+    )
+
+    return {
+        "queued": True,
+        "message": _("Write-off processing has started in the background."),
+    }
+
+
 # This background job creates and submits settlement suggestions.
 def run_generate_matches(reconciliation_name: str, requested_by: str):
     summary = {
@@ -243,6 +277,88 @@ def run_generate_matches(reconciliation_name: str, requested_by: str):
     )
 
 
+# This background job creates policy write-off settlements without statement allocation.
+def run_generate_write_offs(reconciliation_name: str, requested_by: str):
+    summary = {
+        "action": "write_off",
+        "reconciliation_name": reconciliation_name,
+        "total_records": 0,
+        "created": 0,
+        "unmatched": 0,
+        "failed": 0,
+    }
+
+    savepoint = "brokerage_reconciliation_write_off"
+    frappe.db.savepoint(savepoint)
+
+    try:
+        reconciliation = frappe.get_doc("Brokerage Reconciliation", reconciliation_name)
+
+        frappe.db.set_value(
+            "Brokerage Reconciliation",
+            reconciliation.name,
+            {
+                "last_matching_started_on": frappe.utils.now(),
+                "statements_checked": 0,
+                "settlements_submitted": 0,
+                "unmatched_statements": 0,
+                "failed_records": 0,
+            },
+            update_modified=False,
+        )
+
+        write_off_summary = _generate_write_off_settlements(reconciliation)
+        summary.update(write_off_summary)
+
+        final_status = "Completed" if summary["created"] else "Draft"
+
+        frappe.db.set_value(
+            "Brokerage Reconciliation",
+            reconciliation.name,
+            {
+                "status": final_status,
+                "last_matching_completed_on": frappe.utils.now(),
+                "statements_checked": summary["total_records"],
+                "settlements_submitted": summary["created"],
+                "unmatched_statements": summary["unmatched"],
+                "failed_records": summary["failed"],
+            },
+            update_modified=False,
+        )
+
+        if summary["created"]:
+            _submit_reconciliation_after_matching(reconciliation.name)
+
+    except Exception:
+        frappe.db.rollback(save_point=savepoint)
+
+        frappe.db.set_value(
+            "Brokerage Reconciliation",
+            reconciliation_name,
+            {
+                "status": "Draft",
+                "last_matching_completed_on": frappe.utils.now(),
+                "failed_records": 1,
+            },
+            update_modified=False,
+        )
+
+        frappe.log_error(
+            title=f"Brokerage Reconciliation write-off failed: {reconciliation_name}",
+            message=frappe.get_traceback(),
+        )
+
+        summary["failed"] = 1
+
+    frappe.db.commit()
+
+    frappe.publish_realtime(
+        "brokerage_reconciliation_job_complete",
+        summary,
+        user=requested_by,
+    )
+
+
 # This submits the reconciliation document after its settlements are already submitted.
 def _submit_reconciliation_after_matching(reconciliation_name: str):
     reconciliation = frappe.get_doc("Brokerage Reconciliation", reconciliation_name)
@@ -285,24 +401,21 @@ def _generate_match_suggestions(reconciliation: Document) -> dict:
                 continue
 
             settlement_amounts = _get_suggested_settlement_amounts(
-                reconciliation=reconciliation,
                 policy_remaining=policy_remaining,
                 statement_remaining=statement_remaining,
             )
 
-            _create_draft_settlement(
+            created_settlements = _create_settlements_for_match(
                 reconciliation=reconciliation,
                 policy=policy,
                 statement=statement,
-                allocated_amount=settlement_amounts["allocated_amount"],
-                write_off_amount=settlement_amounts["write_off_amount"],
-                remarks=settlement_amounts["remarks"],
+                settlement_amounts=settlement_amounts,
                 match_method=match_result["match_method"],
                 match_score=match_result["match_score"],
             )
 
-            summary["created"] += 1
-            created_for_statement += 1
+            summary["created"] += created_settlements
+            created_for_statement += created_settlements
             statement_remaining -= settlement_amounts["allocated_amount"]
             policy.outstanding_brokerage = (
                 policy_remaining
@@ -316,34 +429,87 @@ def _generate_match_suggestions(reconciliation: Document) -> dict:
     return summary
 
 
-# This suggests allocation and small write-off amounts from the reconciliation tolerance.
+# This creates write-off settlements for policy balances within the configured limit.
+def _generate_write_off_settlements(reconciliation: Document) -> dict:
+    policies = _get_available_write_off_policies(reconciliation)
+    write_off_limit = flt(reconciliation.amount_tolerance)
+
+    summary = {
+        "total_records": len(policies),
+        "created": 0,
+        "unmatched": 0,
+    }
+
+    for policy in policies:
+        policy_remaining = flt(policy.outstanding_brokerage)
+
+        if policy_remaining <= 0:
+            summary["unmatched"] += 1
+            continue
+
+        if policy_remaining > write_off_limit:
+            summary["unmatched"] += 1
+            continue
+
+        _create_draft_settlement(
+            reconciliation=reconciliation,
+            policy=policy,
+            statement=None,
+            settlement_type="Write Off",
+            allocated_amount=0,
+            write_off_amount=policy_remaining,
+            remarks=_("Policy balance closed without direct statement allocation."),
+            match_method="Manual",
+            match_score=100,
+        )
+
+        summary["created"] += 1
+
+    return summary
+
+
+# This suggests allocation amounts from available policy and statement balances.
 def _get_suggested_settlement_amounts(
-    reconciliation: Document,
     policy_remaining: float,
     statement_remaining: float,
 ) -> dict:
     allocated_amount = min(policy_remaining, statement_remaining)
-    write_off_amount = 0
-    remarks = ""
-
-    policy_balance_after_allocation = policy_remaining - allocated_amount
-    amount_tolerance = flt(reconciliation.amount_tolerance)
-
-    # This closes small policy differences when they are within the configured tolerance.
-    if (
-        allocated_amount > 0
-        and policy_balance_after_allocation > 0
-        and amount_tolerance > 0
-        and policy_balance_after_allocation <= amount_tolerance
-    ):
-        write_off_amount = policy_balance_after_allocation
-        remarks = _("Auto write-off within amount tolerance.")
 
     return {
         "allocated_amount": allocated_amount,
-        "write_off_amount": write_off_amount,
-        "remarks": remarks,
+        "write_off_amount": 0,
+        "remarks": "",
     }
+
+
+# This creates separate allocation and write-off settlement records for one match.
+def _create_settlements_for_match(
+    reconciliation: Document,
+    policy,
+    statement,
+    settlement_amounts: dict,
+    match_method: str,
+    match_score: float,
+) -> int:
+    created_count = 0
+
+    allocated_amount = flt(settlement_amounts["allocated_amount"])
+
+    if allocated_amount:
+        _create_draft_settlement(
+            reconciliation=reconciliation,
+            policy=policy,
+            statement=statement,
+            settlement_type="Regular",
+            allocated_amount=allocated_amount,
+            write_off_amount=0,
+            remarks="",
+            match_method=match_method,
+            match_score=match_score,
+        )
+        created_count += 1
+
+    return created_count
 
 
 # This checks matching methods one by one and returns the first valid match.
@@ -388,6 +554,7 @@ def _create_draft_settlement(
     reconciliation: Document,
     policy,
     statement,
+    settlement_type: str,
     allocated_amount: float,
     write_off_amount: float = 0,
     remarks: str = "",
@@ -399,9 +566,9 @@ def _create_draft_settlement(
             "doctype": "Brokerage Settlement",
             "brokerage_reconciliation": reconciliation.name,
             "settlement_date": reconciliation.reconciliation_date or today(),
-            "settlement_type": "Regular",
+            "settlement_type": settlement_type,
             "policy_register": policy.name,
-            "brokerage_statement": statement.name,
+            "brokerage_statement": statement.name if statement else None,
             "allocated_amount": allocated_amount,
             "write_off_amount": write_off_amount,
             "match_method": match_method,
@@ -493,6 +660,42 @@ def _get_available_policies_by_policy_number(
     return policies_by_policy_number
 
 
+# This loads submitted Policy Registers eligible for policy-side write-off.
+def _get_available_write_off_policies(reconciliation: Document) -> list:
+    filters = {
+        "docstatus": 1,
+        "outstanding_brokerage": [">", 0],
+    }
+
+    if reconciliation.include_earlier_business:
+        filters["business_month"] = ["<=", reconciliation.statement_month]
+    else:
+        filters["business_month"] = reconciliation.statement_month
+
+    policies = frappe.get_all(
+        "Policy Register",
+        filters=filters,
+        fields=[
+            "name",
+            "policy_number",
+            "insurer_name",
+            "business_month",
+            "expected_brokerage",
+            "outstanding_brokerage",
+        ],
+        order_by="business_month asc, creation asc",
+    )
+
+    return [
+        policy
+        for policy in policies
+        if _policy_matches_reconciliation_insurer(
+            policy.insurer_name,
+            reconciliation.insurer_name,
+        )
+    ]
+
+
 # This prevents duplicate generated draft settlements before a fresh matching run.
 def _delete_existing_draft_settlements(reconciliation_name: str):
     submitted_settlements = frappe.get_all(
@@ -539,6 +742,14 @@ def _validate_reconciliation_can_generate(reconciliation: Document):
 
     if not reconciliation.statement_month:
         frappe.throw(_("Statement Month is required."))
+
+
+# This checks state and write-off limit before policy write-offs are generated.
+def _validate_reconciliation_can_generate_write_offs(reconciliation: Document):
+    _validate_reconciliation_can_generate(reconciliation)
+
+    if flt(reconciliation.amount_tolerance) <= 0:
+        frappe.throw(_("Amount Tolerance must be greater than zero for write-offs."))
 
 
 # This checks user permissions before automatic settlement records are created and submitted.

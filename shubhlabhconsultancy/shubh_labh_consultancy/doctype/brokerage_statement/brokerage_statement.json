@@ -42,6 +42,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "description": "Original statement record from which this amended record was created.",
    "fieldname": "amended_from",
    "fieldtype": "Link",
    "label": "Amended From",
@@ -57,14 +58,14 @@
    "label": "Statement Details"
   },
   {
+   "description": "Stored as the first date of the statement month.",
    "fieldname": "statement_month",
    "fieldtype": "Date",
-   "description": "Stored as the first date of the statement month.",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Statement Month Date",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_hdim",
@@ -77,38 +78,42 @@
   },
   {
    "bold": 1,
+   "description": "Policy number as received from the insurer statement source.",
    "fieldname": "policy_number",
    "fieldtype": "Data",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Policy Number",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
+   "description": "Customer name as received from the insurer statement source.",
    "fieldname": "customer_name",
    "fieldtype": "Data",
    "label": "Customer Name",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_iias",
    "fieldtype": "Column Break"
   },
   {
+   "description": "Policy start date as received from the insurer statement source.",
    "fieldname": "start_date",
    "fieldtype": "Date",
    "label": "Start Date",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
+   "description": "Policy expiry date as received from the insurer statement source.",
    "fieldname": "expiry_date",
    "fieldtype": "Date",
    "label": "Expiry Date",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "brokerage_receipt_allocation_section",
@@ -117,20 +122,22 @@
   },
   {
    "default": "0",
+   "description": "Brokerage amount received from the insurer for this statement row.",
    "fieldname": "brokerage_received",
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Brokerage Received",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "default": "0",
+   "description": "Total amount from this statement row already allocated through submitted settlements.",
    "fieldname": "allocated_brokerage",
    "fieldtype": "Currency",
    "label": "Allocated Brokerage",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_dtyn",
@@ -138,23 +145,25 @@
   },
   {
    "default": "0",
+   "description": "Remaining received brokerage available for future allocation.",
    "fieldname": "unallocated_brokerage",
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Unallocated Brokerage",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "default": "Unallocated",
+   "description": "Current allocation status of this statement row.",
    "fieldname": "reconciliation_status",
    "fieldtype": "Select",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Reconciliation Status",
-   "options": "\nUnallocated\nPartially Allocated\nFully Allocated\nOn Account\nDisputed\nReversed",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "options": "\nUnallocated\nPartially Allocated\nFully Allocated",
+   "read_only": 1
   },
   {
    "fieldname": "source_references_section",
@@ -162,38 +171,41 @@
    "label": "Source References"
   },
   {
+   "description": "Staging record from which this final statement row was created.",
    "fieldname": "source_staging",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Source Staging",
+   "no_copy": 1,
    "options": "Brokerage Statement Staging",
    "read_only": 1,
    "reqd": 1,
-   "unique": 1,
-   "no_copy": 1
+   "unique": 1
   },
   {
    "fieldname": "column_break_uzkc",
    "fieldtype": "Column Break"
   },
   {
+   "description": "Data Import record used to bring the original statement data into staging.",
    "fieldname": "source_data_import",
    "fieldtype": "Link",
    "label": "Source Data Import",
+   "no_copy": 1,
    "options": "Data Import",
-   "read_only": 1,
-   "no_copy": 1
+   "read_only": 1
   },
   {
+   "description": "Insurer master linked to this statement row.",
    "fieldname": "insurer_name",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Insurer Name",
+   "no_copy": 1,
    "options": "Insurer",
-   "read_only": 1,
-   "no_copy": 1
+   "read_only": 1
   },
   {
    "fieldname": "matching_duplicate_control_section",
@@ -202,26 +214,29 @@
    "label": "Matching & Duplicate Control"
   },
   {
+   "description": "System-generated policy number key used for matching and duplicate checks.",
    "fieldname": "normalized_policy_number",
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Normalized Policy Number",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
+   "description": "System-generated insurer key used for matching and duplicate checks.",
    "fieldname": "normalized_insurer_name",
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Normalized Insurer Name",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_qaaf",
    "fieldtype": "Column Break"
   },
   {
+   "description": "System-generated customer name key used for matching and duplicate checks.",
    "fieldname": "normalized_customer_name",
    "fieldtype": "Data",
    "hidden": 1,
@@ -230,19 +245,20 @@
    "read_only": 1
   },
   {
+   "description": "System-generated hash used to identify duplicate statement rows across imports.",
    "fieldname": "record_fingerprint",
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Record Fingerprint",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-27 16:39:59.426773",
+ "modified": "2026-07-28 14:59:02.098159",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "Brokerage Statement",

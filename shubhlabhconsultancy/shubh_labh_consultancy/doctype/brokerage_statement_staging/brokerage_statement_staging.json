@@ -58,12 +58,14 @@
    "fieldname": "statement_month_select",
    "fieldtype": "Select",
    "label": "Statement Month",
-   "options": "\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember"
+   "options": "\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember",
+   "description": "Statement month selected during import before the system sets the month date."
   },
   {
    "fieldname": "statement_year",
    "fieldtype": "Int",
-   "label": "Statement Year"
+   "label": "Statement Year",
+   "description": "Year used with Statement Month to build the Statement Month Date."
   },
   {
    "fieldname": "statement_month",
@@ -88,13 +90,15 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Policy Number"
+   "label": "Policy Number",
+   "description": "Policy number as imported from the insurer statement sheet."
   },
   {
    "fieldname": "customer_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Customer Name"
+   "label": "Customer Name",
+   "description": "Customer name as imported from the insurer statement sheet."
   },
   {
    "fieldname": "column_break_rqdf",
@@ -103,12 +107,14 @@
   {
    "fieldname": "start_date",
    "fieldtype": "Date",
-   "label": "Start Date"
+   "label": "Start Date",
+   "description": "Policy start date as imported from the insurer statement sheet."
   },
   {
    "fieldname": "expiry_date",
    "fieldtype": "Date",
-   "label": "Expiry Date"
+   "label": "Expiry Date",
+   "description": "Policy expiry date as imported from the insurer statement sheet."
   },
   {
    "fieldname": "brokerage_details_section",
@@ -120,7 +126,8 @@
    "fieldname": "brokerage_received",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Brokerage Received"
+   "label": "Brokerage Received",
+   "description": "Brokerage amount received for this statement row."
   },
   {
    "fieldname": "validation_processing_status_section",
@@ -135,7 +142,8 @@
    "label": "Validation Status",
    "options": "\nPending\nValid\nWarning\nInvalid",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Validation result for this staging row before posting to Brokerage Statement."
   },
   {
    "default": "Not Processed",
@@ -145,7 +153,8 @@
    "label": "Processing Status",
    "options": "\nNot Processed\nReady\nProcessing\nProcessed\nIgnored\nFailed",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Posting status of this staging row during validation and background posting."
   },
   {
    "fieldname": "column_break_dzpn",
@@ -158,7 +167,8 @@
    "in_standard_filter": 1,
    "label": "Has Warning",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Indicates that validation passed with warnings that should be reviewed."
   },
   {
    "default": "0",
@@ -167,7 +177,8 @@
    "in_standard_filter": 1,
    "label": "Is Duplicate",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Indicates that this row appears to duplicate another staging or final statement record."
   },
   {
    "fieldname": "section_break_cgrf",
@@ -178,7 +189,8 @@
    "fieldtype": "Small Text",
    "label": "Validation Messages",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Validation errors and warnings found for this staging row."
   },
   {
    "fieldname": "normalized_matching_values_section",
@@ -190,7 +202,8 @@
    "fieldtype": "Data",
    "label": "Normalized Policy Number",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "System-generated policy number key used for matching and duplicate checks."
   },
   {
    "fieldname": "column_break_jxdu",
@@ -201,7 +214,8 @@
    "fieldtype": "Data",
    "label": "Normalized Customer Name",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "System-generated customer name key used for matching and duplicate checks."
   },
   {
    "fieldname": "section_break_lzze",
@@ -212,7 +226,8 @@
    "fieldtype": "Data",
    "label": "Record Fingerprint",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "System-generated hash used to detect repeated imports of the same statement row."
   },
   {
    "fieldname": "exception_handling_section",
@@ -225,7 +240,8 @@
    "fieldtype": "Check",
    "in_standard_filter": 1,
    "label": "Ignore Record",
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Marks this staging row to be skipped during validation and posting."
   },
   {
    "fieldname": "column_break_puub",
@@ -237,7 +253,8 @@
    "fieldtype": "Small Text",
    "label": "Ignore Reason",
    "mandatory_depends_on": "eval:doc.ignore_record == 1",
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Reason why this staging row should be ignored."
   },
   {
    "fieldname": "posting_audit_details_section",
@@ -251,7 +268,8 @@
    "label": "Posted Brokerage Statement",
    "options": "Brokerage Statement",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Final Brokerage Statement created from this staging row."
   },
   {
    "fieldname": "column_break_paha",
@@ -263,14 +281,16 @@
    "label": "Processed By",
    "options": "User",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "User who processed or posted this staging row."
   },
   {
    "fieldname": "processed_on",
    "fieldtype": "Datetime",
    "label": "Processed On",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Date and time when this staging row was processed."
   },
   {
    "fieldname": "validation_and_processing_tab",
@@ -283,14 +303,16 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Insurer Name",
-   "options": "Insurer"
+   "options": "Insurer",
+   "description": "Insurer master linked to the imported statement row."
   },
   {
    "fieldname": "normalized_insurer_name",
    "fieldtype": "Data",
    "label": "Normalized Insurer Name",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "System-generated insurer key used for matching and duplicate checks."
   }
  ],
  "grid_page_length": 50,

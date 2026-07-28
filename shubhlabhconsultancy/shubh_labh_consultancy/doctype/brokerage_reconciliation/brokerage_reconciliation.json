@@ -43,7 +43,8 @@
    "options": "Brokerage Reconciliation",
    "print_hide": 1,
    "read_only": 1,
-   "search_index": 1
+   "search_index": 1,
+   "description": "Original reconciliation document from which this amended record was created."
   },
   {
    "fieldname": "section_break_hqoz",
@@ -57,18 +58,21 @@
    "in_standard_filter": 1,
    "label": "Insurer Name",
    "options": "Insurer",
-   "reqd": 1
+   "reqd": 1,
+   "description": "Insurer whose submitted policy and statement records will be matched."
   },
   {
    "fieldname": "statement_month_select",
    "fieldtype": "Select",
    "label": "Statement Month",
-   "options": "\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember"
+   "options": "\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember",
+   "description": "Statement month selected by the user before the system sets the month date."
   },
   {
    "fieldname": "statement_year",
    "fieldtype": "Int",
-   "label": "Statement Year"
+   "label": "Statement Year",
+   "description": "Year used with Statement Month to build the Statement Month Date."
   },
   {
    "fieldname": "statement_month",
@@ -88,19 +92,22 @@
    "fieldname": "reconciliation_date",
    "fieldtype": "Date",
    "label": "Reconciliation Date",
-   "reqd": 1
+   "reqd": 1,
+   "description": "Date on which this reconciliation run is performed or approved."
   },
   {
    "default": "1",
    "fieldname": "include_earlier_business",
    "fieldtype": "Check",
-   "label": "Include Earlier Business"
+   "label": "Include Earlier Business",
+   "description": "Allows policies from earlier business months to match the selected statement month."
   },
   {
    "default": "0",
    "fieldname": "amount_tolerance",
    "fieldtype": "Currency",
-   "label": "Amount Tolerance"
+   "label": "Write-off Limit",
+   "description": "Maximum policy outstanding amount that can be closed through the Generate Write-offs action."
   },
   {
    "fieldname": "section_break_djdx",
@@ -116,12 +123,14 @@
    "label": "Status",
    "options": "\nDraft\nMatching\nReview Required\nReady to Submit\nCompleted\nCancelled",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Current processing status of this reconciliation run."
   },
   {
    "fieldname": "remarks",
    "fieldtype": "Small Text",
-   "label": "Remarks"
+   "label": "Remarks",
+   "description": "Internal note or business reason related to this reconciliation."
   },
   {
    "fieldname": "matching_summary_section",
@@ -133,14 +142,16 @@
    "fieldtype": "Datetime",
    "label": "Last Matching Started On",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Time when the latest background matching job started."
   },
   {
    "fieldname": "last_matching_completed_on",
    "fieldtype": "Datetime",
    "label": "Last Matching Completed On",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Time when the latest background matching job completed."
   },
   {
    "default": "0",
@@ -148,7 +159,8 @@
    "fieldtype": "Int",
    "label": "Statements Checked",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Number of submitted statement rows checked in the latest matching run."
   },
   {
    "default": "0",
@@ -156,7 +168,8 @@
    "fieldtype": "Int",
    "label": "Settlements Submitted",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Number of Brokerage Settlement records created and submitted in the latest matching run."
   },
   {
    "default": "0",
@@ -164,7 +177,8 @@
    "fieldtype": "Int",
    "label": "Unmatched Statements",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Number of checked statement rows that could not be matched automatically."
   },
   {
    "default": "0",
@@ -172,7 +186,8 @@
    "fieldtype": "Int",
    "label": "Failed Records",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Number of records or jobs that failed during the latest matching run."
   },
   {
    "fieldname": "column_break_qtnj",

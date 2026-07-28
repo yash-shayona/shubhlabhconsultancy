@@ -39,6 +39,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "description": "Original settlement document from which this amended record was created.",
    "fieldname": "amended_from",
    "fieldtype": "Link",
    "label": "Amended From",
@@ -54,52 +55,57 @@
    "label": "Settlement Details"
   },
   {
+   "description": "Reconciliation run that created or controls this settlement.",
    "fieldname": "brokerage_reconciliation",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Brokerage Reconciliation",
+   "no_copy": 1,
    "options": "Brokerage Reconciliation",
-   "reqd": 1,
-   "no_copy": 1
+   "reqd": 1
   },
   {
    "default": "Today",
+   "description": "Date on which this policy-statement allocation or write-off is recorded.",
    "fieldname": "settlement_date",
    "fieldtype": "Date",
    "label": "Settlement Date",
-   "reqd": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "reqd": 1
   },
   {
    "default": "Regular",
+   "description": "Type of settlement, such as normal allocation, write-off, adjustment, or reversal.",
    "fieldname": "settlement_type",
    "fieldtype": "Select",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Settlement Type",
+   "no_copy": 1,
    "options": "\nRegular\nWrite Off\nAdjustment\nReversal",
-   "reqd": 1,
-   "no_copy": 1
+   "reqd": 1
   },
   {
    "fieldname": "column_break_peks",
    "fieldtype": "Column Break"
   },
   {
+   "description": "Matching rule that found this policy-statement pair.",
    "fieldname": "match_method",
    "fieldtype": "Select",
    "label": "Match Method",
-   "options": "\nExact Policy Number\nFormatted Policy Number\nPolicy and Customer\nCustomer and Dates\nManual",
-   "no_copy": 1
+   "no_copy": 1,
+   "options": "\nExact Policy Number\nFormatted Policy Number\nPolicy and Customer\nCustomer and Dates\nManual"
   },
   {
+   "default": "0",
+   "description": "Confidence score of the matching rule; exact matches use 100.",
    "fieldname": "match_score",
    "fieldtype": "Percent",
    "label": "Match Score",
-   "read_only": 1,
    "no_copy": 1,
-   "default": "0"
+   "read_only": 1
   },
   {
    "fieldname": "section_break_oquv",
@@ -107,92 +113,106 @@
    "label": "Link Details"
   },
   {
+   "description": "Submitted Policy Register receivable that is being settled.",
    "fieldname": "policy_register",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Policy Register",
-   "options": "Policy Register",
-   "no_copy": 1
+   "no_copy": 1,
+   "options": "Policy Register"
   },
   {
+   "description": "Submitted Brokerage Statement receipt used for allocation. It may be blank for pure write-off cases.",
    "fieldname": "brokerage_statement",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Brokerage Statement",
-   "options": "Brokerage Statement",
-   "no_copy": 1
+   "no_copy": 1,
+   "options": "Brokerage Statement"
   },
   {
    "fieldname": "column_break_lzks",
    "fieldtype": "Column Break"
   },
   {
+   "description": "Original settlement that this reversal is intended to cancel.",
    "fieldname": "reverses_settlement",
    "fieldtype": "Link",
    "label": "Reverses Settlement",
-   "options": "Brokerage Settlement",
-   "no_copy": 1
+   "no_copy": 1,
+   "options": "Brokerage Settlement"
   },
   {
+   "default": "0",
+   "description": "Snapshot of the policy expected brokerage when this settlement is validated.",
    "fieldname": "policy_expected_amount",
    "fieldtype": "Currency",
    "label": "Policy Expected Amount",
-   "read_only": 1,
    "no_copy": 1,
-   "default": "0"
+   "read_only": 1
   },
   {
+   "default": "0",
+   "description": "Snapshot of policy outstanding brokerage before this settlement is submitted.",
    "fieldname": "policy_outstanding_before",
    "fieldtype": "Currency",
    "label": "Policy Outstanding Before",
-   "read_only": 1,
    "no_copy": 1,
-   "default": "0"
+   "read_only": 1
   },
   {
+   "default": "0",
+   "description": "Snapshot of total brokerage received on the statement before this settlement is submitted.",
    "fieldname": "statement_received_amount",
    "fieldtype": "Currency",
    "label": "Statement Received Amount",
-   "read_only": 1,
    "no_copy": 1,
-   "default": "0"
+   "read_only": 1
   },
   {
    "fieldname": "column_break_dzjj",
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
+   "description": "Snapshot of statement unallocated brokerage before this settlement is submitted.",
    "fieldname": "statement_unallocated_before",
    "fieldtype": "Currency",
    "label": "Statement Unallocated Before",
-   "read_only": 1,
    "no_copy": 1,
-   "default": "0"
+   "read_only": 1
   },
   {
    "default": "0",
+   "description": "Amount from the statement that is allocated against the policy receivable.",
    "fieldname": "allocated_amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Allocated Amount",
    "no_copy": 1
   },
   {
    "default": "0",
+   "description": "Policy balance closed without receipt, usually for approved small differences.",
    "fieldname": "write_off_amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Write-off Amount",
    "no_copy": 1
   },
   {
    "default": "0",
+   "description": "Remaining policy difference after allocated and write-off amounts are applied.",
    "fieldname": "difference_amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Difference Amount",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
+   "description": "Reason or note for the settlement. Required when a write-off amount is entered.",
    "fieldname": "remarks",
    "fieldtype": "Small Text",
    "label": "Remarks"
@@ -212,7 +232,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-27 15:51:07.950621",
+ "modified": "2026-07-28 15:13:49.344828",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "Brokerage Settlement",

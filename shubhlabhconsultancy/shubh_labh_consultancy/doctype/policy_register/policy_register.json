@@ -44,6 +44,7 @@
   "reconciliation_summary_section",
   "settled_brokerage",
   "written_off_brokerage",
+  "has_write_off",
   "column_break_ruyg",
   "outstanding_brokerage",
   "reconciliation_status",
@@ -65,6 +66,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "description": "Original policy register record from which this amended record was created.",
    "fieldname": "amended_from",
    "fieldtype": "Link",
    "label": "Amended From",
@@ -80,49 +82,53 @@
    "label": "Business Details"
   },
   {
+   "description": "Stored as the first date of the business month.",
    "fieldname": "business_month",
    "fieldtype": "Date",
-   "description": "Stored as the first date of the business month.",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Business Month Date",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
+   "description": "Financial year of the policy business record.",
    "fieldname": "financial_year",
    "fieldtype": "Data",
    "label": "Financial Year",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
+   "default": "0",
+   "description": "Reference number imported from the source policy register sheet.",
    "fieldname": "cno",
    "fieldtype": "Int",
    "label": "CNO",
-   "read_only": 1,
    "no_copy": 1,
-   "default": "0"
+   "read_only": 1
   },
   {
    "fieldname": "column_break_efkd",
    "fieldtype": "Column Break"
   },
   {
+   "description": "Whether the policy business is new or renewal.",
    "fieldname": "business_type",
    "fieldtype": "Select",
    "in_standard_filter": 1,
    "label": "Business Type",
+   "no_copy": 1,
    "options": "\nNew\nRenewal",
-   "read_only": 1,
-   "no_copy": 1
+   "read_only": 1
   },
   {
+   "description": "Campaign or source label imported with the policy record.",
    "fieldname": "campaign_name",
    "fieldtype": "Data",
    "label": "Campaign Name",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "policy_details_section",
@@ -130,54 +136,60 @@
    "label": "Policy Details"
   },
   {
+   "description": "Policy category imported from the source policy register sheet.",
    "fieldname": "policy_type",
    "fieldtype": "Data",
    "label": "Policy Type",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "bold": 1,
+   "description": "Policy number as imported from the source policy register sheet.",
    "fieldname": "policy_number",
    "fieldtype": "Data",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Policy Number",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
+   "description": "Endorsement number imported with the policy record, when available.",
    "fieldname": "endorsement_number",
    "fieldtype": "Data",
    "label": "Endorsement Number",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_bptx",
    "fieldtype": "Column Break"
   },
   {
+   "description": "Policy coverage start date.",
    "fieldname": "start_date",
    "fieldtype": "Date",
    "label": "Start Date",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
+   "description": "Policy coverage expiry date.",
    "fieldname": "expiry_date",
    "fieldtype": "Date",
    "label": "Expiry Date",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "default": "0",
+   "description": "Share percentage imported with the policy record.",
    "fieldname": "share_percentage",
    "fieldtype": "Percent",
    "label": "Share Percentage",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "insurer_customer_details_section",
@@ -185,25 +197,27 @@
    "label": "Insurer & Customer Details"
   },
   {
+   "description": "Insurer master linked to this policy receivable.",
    "fieldname": "insurer_name",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Insurer Name",
+   "no_copy": 1,
    "options": "Insurer",
-   "read_only": 1,
-   "no_copy": 1
+   "read_only": 1
   },
   {
    "fieldname": "column_break_wqlt",
    "fieldtype": "Column Break"
   },
   {
+   "description": "Customer name from the source policy record.",
    "fieldname": "customer_name",
    "fieldtype": "Data",
    "label": "Customer Name",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "brokerage_calculation_section",
@@ -212,27 +226,30 @@
   },
   {
    "default": "0",
+   "description": "Premium amount on which brokerage is calculated.",
    "fieldname": "brokerage_premium",
    "fieldtype": "Currency",
    "label": "Brokerage Premium",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "default": "0",
+   "description": "Brokerage percentage applied to Brokerage Premium.",
    "fieldname": "brokerage_percentage",
    "fieldtype": "Percent",
    "label": "Brokerage Percentage",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "default": "0",
+   "description": "Brokerage amount calculated or imported for the main premium.",
    "fieldname": "brokerage_amount",
    "fieldtype": "Currency",
    "label": "Brokerage Amount",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_bzxm",
@@ -240,27 +257,30 @@
   },
   {
    "default": "0",
+   "description": "TP premium amount imported from the policy record.",
    "fieldname": "tp_premium",
    "fieldtype": "Currency",
    "label": "TP Premium",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "default": "0",
+   "description": "Brokerage percentage applied to TP Premium.",
    "fieldname": "tp_brokerage_percentage",
    "fieldtype": "Percent",
    "label": "TP Brokerage Percentage",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "default": "0",
+   "description": "Brokerage amount calculated or imported for TP premium.",
    "fieldname": "tp_brokerage_amount",
    "fieldtype": "Currency",
    "label": "TP Brokerage Amount",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "brokerage_receivable_summary_section",
@@ -269,19 +289,21 @@
   },
   {
    "default": "0",
+   "description": "Total brokerage amount before reward is added.",
    "fieldname": "total_brokerage",
    "fieldtype": "Currency",
    "label": "Total Brokerage",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "default": "0",
+   "description": "Total brokerage plus reward amount from the source policy record.",
    "fieldname": "total_brokerage_and_reward",
    "fieldtype": "Currency",
    "label": "Total Brokerage and Reward",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_ccwu",
@@ -289,12 +311,13 @@
   },
   {
    "default": "0",
+   "description": "Receivable brokerage used for reconciliation; set from Total Brokerage and Reward when available, otherwise Total Brokerage.",
    "fieldname": "expected_brokerage",
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Expected Brokerage",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "reconciliation_summary_section",
@@ -303,19 +326,32 @@
   },
   {
    "default": "0",
+   "description": "Total brokerage amount settled through submitted Brokerage Settlement records.",
    "fieldname": "settled_brokerage",
    "fieldtype": "Currency",
    "label": "Settled Brokerage",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "default": "0",
+   "description": "Total brokerage amount closed through submitted write-off settlements.",
    "fieldname": "written_off_brokerage",
    "fieldtype": "Currency",
    "label": "Written-off Brokerage",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "description": "Indicates that this policy has at least one submitted write-off settlement.",
+   "fieldname": "has_write_off",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Has Write-off",
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_ruyg",
@@ -323,23 +359,25 @@
   },
   {
    "default": "0",
+   "description": "Remaining receivable brokerage after settled and written-off amounts.",
    "fieldname": "outstanding_brokerage",
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Outstanding Brokerage",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "default": "Pending",
+   "description": "Current settlement status of this policy receivable.",
    "fieldname": "reconciliation_status",
    "fieldtype": "Select",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Reconciliation Status",
-   "options": "\nPending\nPartially Settled\nFully Settled\nWritten Off\nExcess Received\nDisputed\nReversed",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "options": "\nPending\nPartially Settled\nFully Settled",
+   "read_only": 1
   },
   {
    "fieldname": "source_references_section",
@@ -347,28 +385,30 @@
    "label": "Source References"
   },
   {
+   "description": "Staging record from which this final policy register row was created.",
    "fieldname": "source_staging",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Source Staging",
+   "no_copy": 1,
    "options": "Policy Register Staging",
    "read_only": 1,
    "reqd": 1,
-   "unique": 1,
-   "no_copy": 1
+   "unique": 1
   },
   {
    "fieldname": "column_break_ravt",
    "fieldtype": "Column Break"
   },
   {
+   "description": "Data Import record used to bring the original policy data into staging.",
    "fieldname": "source_data_import",
    "fieldtype": "Link",
    "label": "Source Data Import",
+   "no_copy": 1,
    "options": "Data Import",
-   "read_only": 1,
-   "no_copy": 1
+   "read_only": 1
   },
   {
    "fieldname": "matching_duplicate_control_section",
@@ -377,55 +417,60 @@
    "label": "Matching & Duplicate Control"
   },
   {
+   "description": "System-generated policy number key used for matching and duplicate checks.",
    "fieldname": "normalized_policy_number",
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Normalized Policy Number",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
+   "description": "System-generated endorsement key used for duplicate checks.",
    "fieldname": "normalized_endorsement_number",
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Normalized Endorsement Number",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_wcvq",
    "fieldtype": "Column Break"
   },
   {
+   "description": "System-generated insurer key used for matching and duplicate checks.",
    "fieldname": "normalized_insurer_name",
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Normalized Insurer Name",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
+   "description": "System-generated customer name key used for matching and duplicate checks.",
    "fieldname": "normalized_customer_name",
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Normalized Customer Name",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
+   "description": "System-generated hash used to identify duplicate policy register rows across imports.",
    "fieldname": "record_fingerprint",
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Record Fingerprint",
-   "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-27 16:39:35.666489",
+ "modified": "2026-07-28 14:58:33.567266",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "Policy Register",

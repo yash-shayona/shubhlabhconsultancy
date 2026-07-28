@@ -72,12 +72,14 @@
    "fieldname": "business_month_select",
    "fieldtype": "Select",
    "label": "Business Month",
-   "options": "\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember"
+   "options": "\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember",
+   "description": "Business month selected during import before the system sets the month date."
   },
   {
    "fieldname": "business_year",
    "fieldtype": "Int",
-   "label": "Business Year"
+   "label": "Business Year",
+   "description": "Year used with Business Month to build the Business Month Date."
   },
   {
    "fieldname": "business_month",
@@ -90,18 +92,21 @@
   {
    "fieldname": "financial_year",
    "fieldtype": "Data",
-   "label": "Financial Year"
+   "label": "Financial Year",
+   "description": "Financial year imported with the policy business record."
   },
   {
    "fieldname": "cno",
    "fieldtype": "Int",
    "label": "CNO",
-   "default": "0"
+   "default": "0",
+   "description": "Reference number imported from the source policy register sheet."
   },
   {
    "fieldname": "policy_type",
    "fieldtype": "Data",
-   "label": "Policy Type"
+   "label": "Policy Type",
+   "description": "Policy category imported from the source policy register sheet."
   },
   {
    "bold": 1,
@@ -109,34 +114,40 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Policy Number"
+   "label": "Policy Number",
+   "description": "Policy number as imported from the source policy register sheet."
   },
   {
    "fieldname": "endorsement_number",
    "fieldtype": "Data",
-   "label": "Endorsement Number"
+   "label": "Endorsement Number",
+   "description": "Endorsement number imported with the policy record, when available."
   },
   {
    "fieldname": "start_date",
    "fieldtype": "Date",
-   "label": "Start Date"
+   "label": "Start Date",
+   "description": "Policy coverage start date imported from the source sheet."
   },
   {
    "fieldname": "expiry_date",
    "fieldtype": "Date",
-   "label": "Expiry Date"
+   "label": "Expiry Date",
+   "description": "Policy coverage expiry date imported from the source sheet."
   },
   {
    "fieldname": "share_percentage",
    "fieldtype": "Percent",
    "label": "Share Percentage",
-   "default": "0"
+   "default": "0",
+   "description": "Share percentage imported with the policy record."
   },
   {
    "default": "0",
    "fieldname": "brokerage_premium",
    "fieldtype": "Currency",
-   "label": "Brokerage Premium"
+   "label": "Brokerage Premium",
+   "description": "Premium amount on which brokerage is calculated."
   },
   {
    "fieldname": "column_break_vqwf",
@@ -146,37 +157,43 @@
    "default": "0",
    "fieldname": "brokerage_percentage",
    "fieldtype": "Percent",
-   "label": "Brokerage Percentage"
+   "label": "Brokerage Percentage",
+   "description": "Brokerage percentage applied to Brokerage Premium."
   },
   {
    "default": "0",
    "fieldname": "brokerage_amount",
    "fieldtype": "Currency",
-   "label": "Brokerage Amount"
+   "label": "Brokerage Amount",
+   "description": "Brokerage amount calculated or imported for the main premium."
   },
   {
    "default": "0",
    "fieldname": "tp_premium",
    "fieldtype": "Currency",
-   "label": "TP Premium"
+   "label": "TP Premium",
+   "description": "TP premium amount imported from the policy record."
   },
   {
    "default": "0",
    "fieldname": "tp_brokerage_percentage",
    "fieldtype": "Percent",
-   "label": "TP Brokerage Percentage"
+   "label": "TP Brokerage Percentage",
+   "description": "Brokerage percentage applied to TP Premium."
   },
   {
    "default": "0",
    "fieldname": "tp_brokerage_amount",
    "fieldtype": "Currency",
-   "label": "TP Brokerage Amount"
+   "label": "TP Brokerage Amount",
+   "description": "Brokerage amount calculated or imported for TP premium."
   },
   {
    "default": "0",
    "fieldname": "total_brokerage",
    "fieldtype": "Currency",
-   "label": "Total Brokerage"
+   "label": "Total Brokerage",
+   "description": "Total brokerage amount before reward is added."
   },
   {
    "default": "0",
@@ -184,13 +201,15 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Total Brokerage and Reward"
+   "label": "Total Brokerage and Reward",
+   "description": "Total brokerage plus reward amount; used as expected brokerage when posting the final policy record."
   },
   {
    "fieldname": "business_type",
    "fieldtype": "Select",
    "label": "Business Type",
-   "options": "\nNew\nRenewal"
+   "options": "\nNew\nRenewal",
+   "description": "Whether the policy business is new or renewal."
   },
   {
    "fieldname": "insurer_name",
@@ -198,19 +217,22 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Insurer Name",
-   "options": "Insurer"
+   "options": "Insurer",
+   "description": "Insurer master linked to the imported policy row."
   },
   {
    "fieldname": "customer_name",
    "fieldtype": "Data",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Customer Name"
+   "label": "Customer Name",
+   "description": "Customer name imported with the policy record."
   },
   {
    "fieldname": "campaign_name",
    "fieldtype": "Data",
-   "label": "Campaign Name"
+   "label": "Campaign Name",
+   "description": "Campaign or source label imported with the policy record."
   },
   {
    "fieldname": "business_source_details_section",
@@ -266,7 +288,8 @@
    "label": "Validation Status",
    "options": "\nPending\nValid\nWarning\nInvalid",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Validation result for this staging row before posting to Policy Register."
   },
   {
    "default": "Not Processed",
@@ -275,7 +298,8 @@
    "in_standard_filter": 1,
    "label": "Processing Status",
    "options": "\nNot Processed\nReady\nProcessing\nProcessed\nIgnored\nFailed",
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Posting status of this staging row during validation and background posting."
   },
   {
    "fieldname": "column_break_puzt",
@@ -288,7 +312,8 @@
    "in_standard_filter": 1,
    "label": "Has Warning",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Indicates that validation passed with warnings that should be reviewed."
   },
   {
    "default": "0",
@@ -297,7 +322,8 @@
    "in_standard_filter": 1,
    "label": "Is Duplicate",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Indicates that this row appears to duplicate another staging or final policy record."
   },
   {
    "fieldname": "section_break_aenk",
@@ -308,7 +334,8 @@
    "fieldtype": "Small Text",
    "label": "Validation Messages",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Validation errors and warnings found for this staging row."
   },
   {
    "collapsible": 1,
@@ -321,14 +348,16 @@
    "fieldtype": "Data",
    "label": "Normalized Policy Number",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "System-generated policy number key used for matching and duplicate checks."
   },
   {
    "fieldname": "normalized_endorsement_number",
    "fieldtype": "Data",
    "label": "Normalized Endorsement Number",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "System-generated endorsement key used for duplicate checks."
   },
   {
    "fieldname": "column_break_tvgi",
@@ -339,14 +368,16 @@
    "fieldtype": "Data",
    "label": "Normalized Insurer Name",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "System-generated insurer key used for matching and duplicate checks."
   },
   {
    "fieldname": "normalized_customer_name",
    "fieldtype": "Data",
    "label": "Normalized Customer Name",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "System-generated customer name key used for matching and duplicate checks."
   },
   {
    "fieldname": "section_break_dqbv",
@@ -357,7 +388,8 @@
    "fieldtype": "Data",
    "label": "Record Fingerprint",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "System-generated hash used to detect repeated imports of the same policy row."
   },
   {
    "fieldname": "exception_handling_section",
@@ -370,7 +402,8 @@
    "fieldtype": "Check",
    "in_standard_filter": 1,
    "label": "Ignore Record",
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Marks this staging row to be skipped during validation and posting."
   },
   {
    "fieldname": "column_break_zoqh",
@@ -382,7 +415,8 @@
    "fieldtype": "Small Text",
    "label": "Ignore Reason",
    "mandatory_depends_on": "eval:doc.ignore_record == 1",
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Reason why this staging row should be ignored."
   },
   {
    "fieldname": "posting_audit_details_section",
@@ -396,7 +430,8 @@
    "label": "Posted Policy Register",
    "options": "Policy Register",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Final Policy Register created from this staging row."
   },
   {
    "fieldname": "column_break_ecwg",
@@ -408,14 +443,16 @@
    "label": "Processed By",
    "options": "User",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "User who processed or posted this staging row."
   },
   {
    "fieldname": "processed_on",
    "fieldtype": "Datetime",
    "label": "Processed On",
    "read_only": 1,
-   "no_copy": 1
+   "no_copy": 1,
+   "description": "Date and time when this staging row was processed."
   }
  ],
  "grid_page_length": 50,

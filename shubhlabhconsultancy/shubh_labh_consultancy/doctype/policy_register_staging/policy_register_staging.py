@@ -753,6 +753,7 @@ def _create_policy_register(
             "expected_brokerage": expected_brokerage,
             "settled_brokerage": 0,
             "written_off_brokerage": 0,
+            "has_write_off": 0,
             "outstanding_brokerage": expected_brokerage,
             "reconciliation_status": "Pending",
         }

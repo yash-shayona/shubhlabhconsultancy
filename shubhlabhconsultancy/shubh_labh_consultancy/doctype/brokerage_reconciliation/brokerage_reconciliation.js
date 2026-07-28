@@ -47,6 +47,17 @@ function add_reconciliation_actions(frm) {
 			}
 		);
 	}).addClass("btn-primary");
+
+	frm.add_custom_button(__("Generate Write-offs"), () => {
+		frappe.confirm(
+			__(
+				"This will close eligible policy balances without allocating statement amounts. Continue?"
+			),
+			() => {
+				enqueue_reconciliation_write_offs(frm);
+			}
+		);
+	});
 }
 
 function enqueue_reconciliation_matching(frm) {
@@ -76,6 +87,33 @@ function enqueue_reconciliation_matching(frm) {
 	});
 }
 
+function enqueue_reconciliation_write_offs(frm) {
+	frappe.call({
+		method:
+			"shubhlabhconsultancy.shubh_labh_consultancy.doctype.brokerage_reconciliation.brokerage_reconciliation.enqueue_generate_write_offs",
+		args: {
+			reconciliation_name: frm.doc.name,
+		},
+		freeze: true,
+		freeze_message: __("Starting write-off processing..."),
+		callback(response) {
+			if (response.exc) {
+				return;
+			}
+
+			const result = response.message || {};
+
+			frappe.msgprint({
+				title: __("Write-off Processing Started"),
+				indicator: result.queued ? "blue" : "orange",
+				message: result.message || __("No eligible records were found."),
+			});
+
+			frm.reload_doc();
+		},
+	});
+}
+
 function register_reconciliation_realtime(frm) {
 	if (window.brokerage_reconciliation_listener_registered) {
 		return;
@@ -88,15 +126,33 @@ function register_reconciliation_realtime(frm) {
 			return;
 		}
 
+		const is_write_off = data.action === "write_off";
+		const title = is_write_off
+			? __("Write-off Processing Completed")
+			: __("Reconciliation Matching Completed");
+		const checked_label = is_write_off
+			? __("Policies Checked")
+			: __("Statements Checked");
+		const created_label = is_write_off
+			? __("Write-off Settlements Submitted")
+			: __("Settlements Submitted");
+		const unmatched_label = is_write_off
+			? __("Skipped Policies")
+			: __("Unmatched Statements");
+		const checked_count = data.total_records || data.total_statements || 0;
+		const created_count = data.created || 0;
+		const unmatched_count = data.unmatched || 0;
+		const failed_count = data.failed || 0;
+
 		frappe.msgprint({
-			title: __("Reconciliation Matching Completed"),
+			title,
 			indicator: data.failed ? "orange" : "green",
 			message: `
 				<div>
-					<p><b>${__("Statements Checked")}:</b> ${data.total_statements || 0}</p>
-					<p><b>${__("Draft Settlements Created")}:</b> ${data.created || 0}</p>
-					<p><b>${__("Unmatched Statements")}:</b> ${data.unmatched || 0}</p>
-					<p><b>${__("Failed")}:</b> ${data.failed || 0}</p>
+					<p><b>${checked_label}:</b> ${checked_count}</p>
+					<p><b>${created_label}:</b> ${created_count}</p>
+					<p><b>${unmatched_label}:</b> ${unmatched_count}</p>
+					<p><b>${__("Failed")}:</b> ${failed_count}</p>
 				</div>
 			`,
 		});

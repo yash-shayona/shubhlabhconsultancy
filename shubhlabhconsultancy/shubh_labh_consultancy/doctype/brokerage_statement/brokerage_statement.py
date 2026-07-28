@@ -24,7 +24,7 @@ class BrokerageStatement(Document):
         normalized_insurer_name: DF.Data | None
         normalized_policy_number: DF.Data | None
         policy_number: DF.Data | None
-        reconciliation_status: DF.Literal["", "Unallocated", "Partially Allocated", "Fully Allocated", "On Account", "Disputed", "Reversed"]
+        reconciliation_status: DF.Literal["", "Unallocated", "Partially Allocated", "Fully Allocated"]
         record_fingerprint: DF.Data | None
         source_data_import: DF.Link | None
         source_staging: DF.Link

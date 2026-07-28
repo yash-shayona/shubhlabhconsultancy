@@ -56,6 +56,28 @@
   {
    "child": 0,
    "collapsible": 1,
+   "icon": "tool",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Brokerage Reconciliation Tool",
+   "link_to": "brokerage-reconciliation-tool",
+   "link_type": "Page",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 1,
+   "keep_closed": 0,
+   "label": "Transactions",
+   "link_type": "DocType",
+   "show_arrow": 1,
+   "type": "Section Break"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
    "icon": "boxes",
    "indent": 0,
    "keep_closed": 0,
@@ -66,7 +88,7 @@
    "type": "Link"
   },
   {
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "icon": "handshake",
    "indent": 0,
@@ -100,7 +122,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-07-27 10:48:04.873374",
+ "modified": "2026-07-28 16:15:13.681030",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "SLC",
