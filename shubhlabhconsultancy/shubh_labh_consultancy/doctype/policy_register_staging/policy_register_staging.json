@@ -9,6 +9,8 @@
  "engine": "InnoDB",
  "field_order": [
   "business_source_details_section",
+  "business_month_select",
+  "business_year",
   "business_month",
   "financial_year",
   "cno",
@@ -67,11 +69,23 @@
  ],
  "fields": [
   {
+   "fieldname": "business_month_select",
+   "fieldtype": "Select",
+   "label": "Business Month",
+   "options": "\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember"
+  },
+  {
+   "fieldname": "business_year",
+   "fieldtype": "Int",
+   "label": "Business Year"
+  },
+  {
    "fieldname": "business_month",
    "fieldtype": "Date",
+   "description": "Auto-set to the first date of the selected business month.",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Business Month"
+   "label": "Business Month Date"
   },
   {
    "fieldname": "financial_year",

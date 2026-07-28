@@ -6,6 +6,19 @@ frappe.ui.form.on("Brokerage Reconciliation", {
 		add_reconciliation_actions(frm);
 		register_reconciliation_realtime(frm);
 		set_insurer_name_query(frm);
+		sync_statement_month_fields(frm);
+	},
+
+	statement_month_select(frm) {
+		set_statement_month_date(frm);
+	},
+
+	statement_year(frm) {
+		set_statement_month_date(frm);
+	},
+
+	statement_month(frm) {
+		sync_statement_month_fields(frm);
 	},
 });
 
@@ -100,4 +113,80 @@ function set_insurer_name_query(frm) {
 			},
 		};
 	});
+}
+
+const MONTH_NUMBER_BY_NAME = {
+	January: 1,
+	February: 2,
+	March: 3,
+	April: 4,
+	May: 5,
+	June: 6,
+	July: 7,
+	August: 8,
+	September: 9,
+	October: 10,
+	November: 11,
+	December: 12,
+};
+
+const MONTH_NAME_BY_NUMBER = Object.fromEntries(
+	Object.entries(MONTH_NUMBER_BY_NAME).map(([month_name, month_number]) => [
+		month_number,
+		month_name,
+	])
+);
+
+// This sets the internal Statement Month Date to the first date of the selected month.
+function set_statement_month_date(frm) {
+	const month_name = frm.doc.statement_month_select;
+	const year = cint(frm.doc.statement_year);
+
+	if (!month_name && !year) {
+		return;
+	}
+
+	if (month_name && !year) {
+		frm.set_value("statement_year", new Date().getFullYear());
+		return;
+	}
+
+	if (!month_name || !year) {
+		return;
+	}
+
+	const month_number = MONTH_NUMBER_BY_NAME[month_name];
+
+	if (!month_number) {
+		return;
+	}
+
+	const statement_month = `${year}-${String(month_number).padStart(2, "0")}-01`;
+
+	if (frm.doc.statement_month !== statement_month) {
+		frm.set_value("statement_month", statement_month);
+	}
+}
+
+// This fills Month and Year from the internal Statement Month Date.
+function sync_statement_month_fields(frm) {
+	if (!frm.doc.statement_month) {
+		if (!frm.doc.statement_year) {
+			frm.set_value("statement_year", new Date().getFullYear());
+		}
+
+		return;
+	}
+
+	const date_object = frappe.datetime.str_to_obj(frm.doc.statement_month);
+	const month_name = MONTH_NAME_BY_NUMBER[date_object.getMonth() + 1];
+	const year = date_object.getFullYear();
+
+	if (month_name && frm.doc.statement_month_select !== month_name) {
+		frm.set_value("statement_month_select", month_name);
+	}
+
+	if (frm.doc.statement_year !== year) {
+		frm.set_value("statement_year", year);
+	}
 }

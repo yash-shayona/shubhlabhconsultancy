@@ -10,6 +10,25 @@ from frappe import _
 from frappe.model.document import Document
 from frappe.utils import cstr, flt, getdate, today
 
+MONTH_NUMBER_BY_NAME = {
+    "January": 1,
+    "February": 2,
+    "March": 3,
+    "April": 4,
+    "May": 5,
+    "June": 6,
+    "July": 7,
+    "August": 8,
+    "September": 9,
+    "October": 10,
+    "November": 11,
+    "December": 12,
+}
+
+MONTH_NAME_BY_NUMBER = {
+    month_number: month_name for month_name, month_number in MONTH_NUMBER_BY_NAME.items()
+}
+
 
 class BrokerageReconciliation(Document):
     # begin: auto-generated types
@@ -49,11 +68,28 @@ class BrokerageReconciliation(Document):
         if not self.status:
             self.status = "Draft"
 
-        if self.statement_month and getdate(self.statement_month).day != 1:
-            frappe.throw(_("Statement Month must be the first date of the month."))
+        self._set_statement_month_start_date()
 
         if flt(self.amount_tolerance) < 0:
             frappe.throw(_("Amount Tolerance cannot be negative."))
+
+    # This stores Statement Month as the first date of the selected month.
+    def _set_statement_month_start_date(self):
+        statement_month = _get_month_start_date_from_fields(
+            record=self,
+            month_fieldname="statement_month_select",
+            year_fieldname="statement_year",
+            date_fieldname="statement_month",
+            label="Statement Month",
+            required=True,
+        )
+
+        if not statement_month:
+            return
+
+        self.statement_month = statement_month
+        self.statement_month_select = MONTH_NAME_BY_NUMBER[statement_month.month]
+        self.statement_year = statement_month.year
 
     # This confirms the reconciliation after automatic settlements are already submitted.
     def on_submit(self):
@@ -550,6 +586,50 @@ def _policy_matches_reconciliation_insurer(
     }
 
     return _normalize_value(policy_insurer_name) in allowed_values
+
+
+# This returns the first date of a month from Month/Year fields or an existing Date field.
+def _get_month_start_date_from_fields(
+    record: Document,
+    month_fieldname: str,
+    year_fieldname: str,
+    date_fieldname: str,
+    label: str,
+    required: bool,
+):
+    month_name = cstr(record.get(month_fieldname)).strip()
+    year = record.get(year_fieldname)
+
+    if month_name or year:
+        if not month_name or not year:
+            frappe.throw(_("{0} and Year are required together.").format(label))
+
+        month_number = MONTH_NUMBER_BY_NAME.get(month_name)
+
+        if not month_number:
+            frappe.throw(_("{0} is invalid.").format(label))
+
+        try:
+            year = int(year)
+        except (TypeError, ValueError):
+            frappe.throw(_("{0} Year must contain a valid year.").format(label))
+
+        return getdate(f"{year}-{month_number:02d}-01")
+
+    date_value = record.get(date_fieldname)
+
+    if date_value in (None, ""):
+        if required:
+            frappe.throw(_("{0} is required.").format(label))
+
+        return None
+
+    try:
+        date_value = getdate(date_value)
+    except Exception:
+        frappe.throw(_("{0} must contain a valid date.").format(label))
+
+    return date_value.replace(day=1)
 
 
 # This makes policy/company comparison ignore spaces, case and punctuation.

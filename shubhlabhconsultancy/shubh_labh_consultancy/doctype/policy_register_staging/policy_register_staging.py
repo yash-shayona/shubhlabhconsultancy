@@ -18,6 +18,26 @@ FINAL_DOCTYPE = "Policy Register"
 COMMIT_BATCH_SIZE = 50
 POSTABLE_VALIDATION_STATUSES = ("Valid",)
 
+# This maps user-facing month selection to the stored first date of that month.
+MONTH_NUMBER_BY_NAME = {
+    "January": 1,
+    "February": 2,
+    "March": 3,
+    "April": 4,
+    "May": 5,
+    "June": 6,
+    "July": 7,
+    "August": 8,
+    "September": 9,
+    "October": 10,
+    "November": 11,
+    "December": 12,
+}
+
+MONTH_NAME_BY_NUMBER = {
+    month_number: month_name for month_name, month_number in MONTH_NUMBER_BY_NAME.items()
+}
+
 # These actual DocType fields decide Policy Register duplicate fingerprint.
 POLICY_REGISTER_FINGERPRINT_FIELDS = (
     "normalized_policy_number",
@@ -571,6 +591,15 @@ def _get_validation_result(staging: Document) -> dict:
     insurer_name = cstr(staging.insurer_name).strip()
     customer_name = cstr(staging.customer_name).strip()
     business_type = cstr(staging.business_type).strip()
+    business_month = _get_month_start_date_from_fields(
+        record=staging,
+        month_fieldname="business_month_select",
+        year_fieldname="business_year",
+        date_fieldname="business_month",
+        label="Business Month",
+        errors=errors,
+        required=False,
+    )
 
     # Policy Type: required and numeric digits are not allowed.
     # Spaces and common punctuation remain allowed for practical names.
@@ -611,6 +640,11 @@ def _get_validation_result(staging: Document) -> dict:
     normalized_endorsement_number = _normalize_value(endorsement_number)
     normalized_insurer_name = _normalize_value(insurer_name)
     normalized_customer_name = _normalize_value(customer_name)
+
+    if business_month:
+        staging.business_month = business_month
+        staging.business_month_select = MONTH_NAME_BY_NUMBER[business_month.month]
+        staging.business_year = business_month.year
 
     # These values are set on the in-memory document so fingerprint helper can read by fieldname.
     staging.normalized_policy_number = normalized_policy_number
@@ -657,6 +691,9 @@ def _get_validation_result(staging: Document) -> dict:
     ]
 
     return {
+        "business_month": business_month,
+        "business_month_select": staging.business_month_select,
+        "business_year": staging.business_year,
         "normalized_policy_number": normalized_policy_number,
         "normalized_endorsement_number": normalized_endorsement_number,
         "normalized_insurer_name": normalized_insurer_name,
@@ -919,6 +956,55 @@ def _validate_optional_date(value, label: str, errors: list[str]):
         getdate(value)
     except Exception:
         errors.append(_("{0} must contain a valid date.").format(label))
+
+
+# This returns the first date of a month from Month/Year fields or an existing Date field.
+def _get_month_start_date_from_fields(
+    record: Document,
+    month_fieldname: str,
+    year_fieldname: str,
+    date_fieldname: str,
+    label: str,
+    errors: list[str],
+    required: bool,
+):
+    month_name = cstr(record.get(month_fieldname)).strip()
+    year = record.get(year_fieldname)
+
+    if month_name or year:
+        if not month_name or not year:
+            errors.append(_("{0} and Year are required together.").format(label))
+            return None
+
+        month_number = MONTH_NUMBER_BY_NAME.get(month_name)
+
+        if not month_number:
+            errors.append(_("{0} is invalid.").format(label))
+            return None
+
+        try:
+            year = int(year)
+        except (TypeError, ValueError):
+            errors.append(_("{0} Year must contain a valid year.").format(label))
+            return None
+
+        return getdate(f"{year}-{month_number:02d}-01")
+
+    date_value = record.get(date_fieldname)
+
+    if date_value in (None, ""):
+        if required:
+            errors.append(_("{0} is missing.").format(label))
+
+        return None
+
+    try:
+        date_value = getdate(date_value)
+    except Exception:
+        errors.append(_("{0} must contain a valid date.").format(label))
+        return None
+
+    return date_value.replace(day=1)
 
 
 def _check_validation_permission():

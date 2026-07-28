@@ -17,6 +17,26 @@ FINAL_DOCTYPE = "Brokerage Statement"
 
 COMMIT_BATCH_SIZE = 50
 
+# This maps user-facing month selection to the stored first date of that month.
+MONTH_NUMBER_BY_NAME = {
+    "January": 1,
+    "February": 2,
+    "March": 3,
+    "April": 4,
+    "May": 5,
+    "June": 6,
+    "July": 7,
+    "August": 8,
+    "September": 9,
+    "October": 10,
+    "November": 11,
+    "December": 12,
+}
+
+MONTH_NAME_BY_NUMBER = {
+    month_number: month_name for month_name, month_number in MONTH_NUMBER_BY_NAME.items()
+}
+
 # These actual DocType fields decide Brokerage Statement duplicate fingerprint.
 BROKERAGE_STATEMENT_FINGERPRINT_FIELDS = (
     "statement_month",
@@ -618,8 +638,11 @@ def _get_validation_result(
 
     customer_name = cstr(staging.customer_name).strip()
 
-    statement_month = _get_valid_date(
-        value=staging.statement_month,
+    statement_month = _get_month_start_date_from_fields(
+        record=staging,
+        month_fieldname="statement_month_select",
+        year_fieldname="statement_year",
+        date_fieldname="statement_month",
         label="Statement Month",
         errors=errors,
         required=True,
@@ -660,6 +683,11 @@ def _get_validation_result(
 
     normalized_customer_name = _normalize_value(customer_name)
 
+    if statement_month:
+        staging.statement_month = statement_month
+        staging.statement_month_select = MONTH_NAME_BY_NUMBER[statement_month.month]
+        staging.statement_year = statement_month.year
+
     # These values are set on the in-memory document so fingerprint helper can read by fieldname.
     staging.statement_month = statement_month
     staging.start_date = start_date
@@ -698,6 +726,9 @@ def _get_validation_result(
     validation_messages = [_("ERROR: {0}").format(message) for message in errors]
 
     return {
+        "statement_month": statement_month,
+        "statement_month_select": staging.statement_month_select,
+        "statement_year": staging.statement_year,
         "normalized_policy_number": (normalized_policy_number),
         "normalized_insurer_name": (normalized_insurer_name),
         "normalized_customer_name": (normalized_customer_name),
@@ -1001,6 +1032,55 @@ def _get_valid_date(
         errors.append(_("{0} must contain a valid date.").format(label))
 
         return None
+
+
+# This returns the first date of a month from Month/Year fields or an existing Date field.
+def _get_month_start_date_from_fields(
+    record: Document,
+    month_fieldname: str,
+    year_fieldname: str,
+    date_fieldname: str,
+    label: str,
+    errors: list[str],
+    required: bool,
+):
+    month_name = cstr(record.get(month_fieldname)).strip()
+    year = record.get(year_fieldname)
+
+    if month_name or year:
+        if not month_name or not year:
+            errors.append(_("{0} and Year are required together.").format(label))
+            return None
+
+        month_number = MONTH_NUMBER_BY_NAME.get(month_name)
+
+        if not month_number:
+            errors.append(_("{0} is invalid.").format(label))
+            return None
+
+        try:
+            year = int(year)
+        except (TypeError, ValueError):
+            errors.append(_("{0} Year must contain a valid year.").format(label))
+            return None
+
+        return getdate(f"{year}-{month_number:02d}-01")
+
+    date_value = record.get(date_fieldname)
+
+    if date_value in (None, ""):
+        if required:
+            errors.append(_("{0} is missing.").format(label))
+
+        return None
+
+    try:
+        date_value = getdate(date_value)
+    except Exception:
+        errors.append(_("{0} must contain a valid date.").format(label))
+        return None
+
+    return date_value.replace(day=1)
 
 
 def _get_decimal_value(

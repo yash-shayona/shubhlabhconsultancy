@@ -82,9 +82,10 @@
   {
    "fieldname": "business_month",
    "fieldtype": "Date",
+   "description": "Stored as the first date of the business month.",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Business Month",
+   "label": "Business Month Date",
    "read_only": 1,
    "no_copy": 1
   },

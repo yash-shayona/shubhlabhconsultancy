@@ -59,9 +59,10 @@
   {
    "fieldname": "statement_month",
    "fieldtype": "Date",
+   "description": "Stored as the first date of the statement month.",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Statement Month",
+   "label": "Statement Month Date",
    "read_only": 1,
    "no_copy": 1
   },

@@ -11,6 +11,8 @@
   "amended_from",
   "section_break_hqoz",
   "insurer_name",
+  "statement_month_select",
+  "statement_year",
   "statement_month",
   "column_break_wfdc",
   "reconciliation_date",
@@ -58,11 +60,23 @@
    "reqd": 1
   },
   {
+   "fieldname": "statement_month_select",
+   "fieldtype": "Select",
+   "label": "Statement Month",
+   "options": "\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember"
+  },
+  {
+   "fieldname": "statement_year",
+   "fieldtype": "Int",
+   "label": "Statement Year"
+  },
+  {
    "fieldname": "statement_month",
    "fieldtype": "Date",
+   "description": "Auto-set to the first date of the selected statement month.",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Statement Month",
+   "label": "Statement Month Date",
    "reqd": 1
   },
   {
