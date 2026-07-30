@@ -184,22 +184,21 @@ class BrokerageStatementStaging(Document):
 
 
 @frappe.whitelist()
-def enqueue_pending_validation():
+def enqueue_pending_validation(staging_name: str | None = None):
     """
-    List header ke Validate button se call hoga.
+    Queues validation for every eligible row, or one named staging row.
 
-    Checkbox selection required nahi hai.
-
-    Eligible records:
-    - Ignore nahi kiya gaya.
-    - Already posted nahi hai.
-    - Currently Processing nahi hai.
-    - Already Processed nahi hai.
+    Without ``staging_name``, the list header action finds every eligible
+    pending record and passes its name to the background job.
     """
 
     _check_validation_permission()
+    staging_name = cstr(staging_name).strip() or None
 
-    record_names = _get_validation_candidates()
+    if staging_name:
+        _check_single_record_write_permission(staging_name)
+
+    record_names = _get_validation_candidates(staging_name=staging_name)
 
     if not record_names:
         return {
@@ -231,11 +230,11 @@ def enqueue_pending_validation():
 
 
 @frappe.whitelist()
-def enqueue_valid_posting():
+def enqueue_valid_posting(staging_name: str | None = None):
     """
-    List header ke Post button se call hoga.
+    Queues posting for every eligible row, or one named staging row.
 
-    Eligible records:
+    Without ``staging_name``, the list header action finds every record that is:
     - Validation Status = Valid
     - Processing Status = Ready
     - Ignore nahi kiya gaya.
@@ -243,8 +242,12 @@ def enqueue_valid_posting():
     """
 
     _check_posting_permission()
+    staging_name = cstr(staging_name).strip() or None
 
-    record_names = _get_posting_candidates()
+    if staging_name:
+        _check_single_record_write_permission(staging_name)
+
+    record_names = _get_posting_candidates(staging_name=staging_name)
 
     if not record_names:
         return {
@@ -290,6 +293,7 @@ def run_pending_validation(
 ):
     summary = {
         "action": "validation",
+        "record_names": record_names,
         "total": len(record_names),
         "valid": 0,
         "warning": 0,
@@ -437,6 +441,7 @@ def run_valid_posting(
 
     summary = {
         "action": "posting",
+        "record_names": record_names,
         "total": len(record_names),
         "posted": 0,
         "already_processed": 0,
@@ -789,63 +794,84 @@ def _create_brokerage_statement(
 # -------------------------------------------------------------------------
 
 
-def _get_validation_candidates() -> list[str]:
-    return frappe.get_all(
-        STAGING_DOCTYPE,
-        filters=[
+def _get_validation_candidates(staging_name: str | None = None) -> list[str]:
+    filters = [
+        [
+            "posted_brokerage_statement",
+            "is",
+            "not set",
+        ],
+        [
+            "ignore_record",
+            "=",
+            0,
+        ],
+        [
+            "processing_status",
+            "not in",
             [
-                "posted_brokerage_statement",
-                "is",
-                "not set",
-            ],
-            [
-                "ignore_record",
-                "=",
-                0,
-            ],
-            [
-                "processing_status",
-                "not in",
-                [
-                    "Processed",
-                    "Processing",
-                    "Ignored",
-                ],
+                "Processed",
+                "Processing",
+                "Ignored",
             ],
         ],
+    ]
+
+    if staging_name:
+        filters.insert(0, ["name", "=", staging_name])
+
+    return frappe.get_all(
+        STAGING_DOCTYPE,
+        filters=filters,
         pluck="name",
         order_by="creation asc",
     )
 
 
-def _get_posting_candidates() -> list[str]:
+def _get_posting_candidates(staging_name: str | None = None) -> list[str]:
+    filters = [
+        [
+            "posted_brokerage_statement",
+            "is",
+            "not set",
+        ],
+        [
+            "ignore_record",
+            "=",
+            0,
+        ],
+        [
+            "validation_status",
+            "in",
+            list(POSTABLE_VALIDATION_STATUSES),
+        ],
+        [
+            "processing_status",
+            "=",
+            "Ready",
+        ],
+    ]
+
+    if staging_name:
+        filters.insert(0, ["name", "=", staging_name])
+
     return frappe.get_all(
         STAGING_DOCTYPE,
-        filters=[
-            [
-                "posted_brokerage_statement",
-                "is",
-                "not set",
-            ],
-            [
-                "ignore_record",
-                "=",
-                0,
-            ],
-            [
-                "validation_status",
-                "in",
-                list(POSTABLE_VALIDATION_STATUSES),
-            ],
-            [
-                "processing_status",
-                "=",
-                "Ready",
-            ],
-        ],
+        filters=filters,
         pluck="name",
         order_by="creation asc",
     )
+
+
+# This checks document-level write access before a form action queues one staging row.
+def _check_single_record_write_permission(staging_name: str):
+    staging = frappe.get_doc(STAGING_DOCTYPE, staging_name)
+
+    if not frappe.has_permission(STAGING_DOCTYPE, ptype="write", doc=staging):
+        frappe.throw(
+            _("You do not have permission to update this Brokerage Statement Staging record."),
+            frappe.PermissionError,
+        )
 
 
 def _mark_records_as_processing(

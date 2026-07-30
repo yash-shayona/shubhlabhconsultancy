@@ -5,6 +5,8 @@ frappe.ui.form.on("Policy Register Staging", {
 	refresh(frm) {
 		frm.events._set_insurer_name_query(frm);
 		frm.events._sync_business_month_fields(frm);
+		add_policy_register_staging_actions(frm);
+		register_policy_register_staging_form_realtime();
 	},
 
 	business_month_select(frm) {
@@ -47,6 +49,131 @@ frappe.ui.form.on("Policy Register Staging", {
 		);
 	},
 });
+
+const POLICY_REGISTER_STAGING_METHODS = {
+	validate:
+		"shubhlabhconsultancy.shubh_labh_consultancy.doctype.policy_register_staging.policy_register_staging.enqueue_pending_validation",
+	post:
+		"shubhlabhconsultancy.shubh_labh_consultancy.doctype.policy_register_staging.policy_register_staging.enqueue_valid_posting",
+};
+
+// This mirrors the current server eligibility only to decide whether to show the Post button.
+const POSTABLE_POLICY_REGISTER_VALIDATION_STATUSES = ["Valid"];
+
+// This adds actions that queue validation or posting for only the open staging record.
+function add_policy_register_staging_actions(frm) {
+	if (frm.is_new() || !is_policy_register_staging_actionable(frm.doc)) {
+		return;
+	}
+
+	frm.add_custom_button(__("Validate This Record"), () => {
+		queue_policy_register_staging_action({
+			frm,
+			method: POLICY_REGISTER_STAGING_METHODS.validate,
+			freeze_message: __("Starting validation for this record..."),
+			title: __("Validation Started"),
+		});
+	});
+
+	if (!is_policy_register_staging_postable(frm.doc)) {
+		return;
+	}
+
+	frm.add_custom_button(__("Post This Record"), () => {
+		frappe.confirm(
+			__(
+				"This will create and submit the final Policy Register for this staging record. Continue?"
+			),
+			() => {
+				queue_policy_register_staging_action({
+					frm,
+					method: POLICY_REGISTER_STAGING_METHODS.post,
+					freeze_message: __("Starting posting for this record..."),
+					title: __("Posting Started"),
+				});
+			}
+		);
+	}).addClass("btn-primary");
+}
+
+// This checks whether the current row can still be validated or posted.
+function is_policy_register_staging_actionable(doc) {
+	return (
+		!cint(doc.ignore_record) &&
+		!doc.posted_policy_register &&
+		doc.processing_status !== "Processing" &&
+		doc.processing_status !== "Processed" &&
+		doc.processing_status !== "Ignored"
+	);
+}
+
+// This checks whether the current row has passed validation and is ready for posting.
+function is_policy_register_staging_postable(doc) {
+	return (
+		is_policy_register_staging_actionable(doc) &&
+		POSTABLE_POLICY_REGISTER_VALIDATION_STATUSES.includes(doc.validation_status) &&
+		doc.processing_status === "Ready"
+	);
+}
+
+// This queues one staging record through the existing background processing methods.
+function queue_policy_register_staging_action({ frm, method, freeze_message, title }) {
+	frappe.call({
+		method,
+		args: {
+			staging_name: frm.doc.name,
+		},
+		freeze: true,
+		freeze_message,
+		callback(response) {
+			if (response.exc) {
+				return;
+			}
+
+			const result = response.message || {};
+
+			frappe.msgprint({
+				title,
+				indicator: result.queued ? "blue" : "orange",
+				message: result.message || __("This record is not eligible for processing."),
+			});
+
+			frm.reload_doc();
+		},
+	});
+}
+
+// This reloads the open form when its own background validation or posting completes.
+function register_policy_register_staging_form_realtime() {
+	if (window.policy_register_staging_form_listener_registered) {
+		return;
+	}
+
+	window.policy_register_staging_form_listener_registered = true;
+
+	frappe.realtime.on("policy_register_staging_job_complete", (data) => {
+		const frm = cur_frm;
+
+		if (
+			!frm ||
+			frm.doctype !== "Policy Register Staging" ||
+			!Array.isArray(data?.record_names) ||
+			!data.record_names.includes(frm.doc.name)
+		) {
+			return;
+		}
+
+		frappe.show_alert({
+			message:
+				data.action === "posting"
+					? __("Posting completed for this record.")
+					: __("Validation completed for this record."),
+			indicator: data.failed > 0 ? "orange" : "green",
+		});
+
+		frm.reload_doc();
+	});
+}
 
 const MONTH_NUMBER_BY_NAME = {
 	January: 1,
