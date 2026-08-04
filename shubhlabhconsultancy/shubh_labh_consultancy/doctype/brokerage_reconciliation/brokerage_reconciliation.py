@@ -8,7 +8,7 @@ import re
 import frappe
 from frappe import _
 from frappe.model.document import Document
-from frappe.utils import cstr, flt, getdate, today
+from frappe.utils import cint, cstr, flt, getdate, today
 
 MONTH_NUMBER_BY_NAME = {
     "January": 1,
@@ -28,6 +28,12 @@ MONTH_NUMBER_BY_NAME = {
 MONTH_NAME_BY_NUMBER = {
     month_number: month_name for month_name, month_number in MONTH_NUMBER_BY_NAME.items()
 }
+
+# This event keeps the website informed while a background reconciliation job is running.
+BROKERAGE_RECONCILIATION_PROGRESS_EVENT = "brokerage_reconciliation_job_progress"
+
+# This limits event traffic while still giving the user regular visible progress updates.
+RECONCILIATION_PROGRESS_UPDATE_INTERVAL = 10
 
 
 class BrokerageReconciliation(Document):
@@ -225,7 +231,17 @@ def run_generate_matches(reconciliation_name: str, requested_by: str):
             update_modified=False,
         )
 
-        match_summary = _generate_match_suggestions(reconciliation)
+        _publish_reconciliation_progress(
+            reconciliation_name=reconciliation.name,
+            requested_by=requested_by,
+            action=summary["action"],
+            phase=_("Loading eligible statements and policies."),
+        )
+
+        match_summary = _generate_match_suggestions(
+            reconciliation,
+            requested_by=requested_by,
+        )
         summary.update(match_summary)
 
         final_status = "Completed" if summary["created"] else "Draft"
@@ -307,7 +323,17 @@ def run_generate_write_offs(reconciliation_name: str, requested_by: str):
             update_modified=False,
         )
 
-        write_off_summary = _generate_write_off_settlements(reconciliation)
+        _publish_reconciliation_progress(
+            reconciliation_name=reconciliation.name,
+            requested_by=requested_by,
+            action=summary["action"],
+            phase=_("Loading eligible policies."),
+        )
+
+        write_off_summary = _generate_write_off_settlements(
+            reconciliation,
+            requested_by=requested_by,
+        )
         summary.update(write_off_summary)
 
         final_status = "Completed" if summary["created"] else "Draft"
@@ -359,6 +385,76 @@ def run_generate_write_offs(reconciliation_name: str, requested_by: str):
     )
 
 
+# This sends one progress event only at the configured batch interval or final record.
+def _publish_reconciliation_progress_if_due(
+    reconciliation: Document,
+    requested_by: str | None,
+    action: str,
+    phase: str,
+    processed: int,
+    total: int,
+    summary: dict,
+):
+    is_complete = processed == total
+
+    if not is_complete and processed % RECONCILIATION_PROGRESS_UPDATE_INTERVAL:
+        return
+
+    _publish_reconciliation_progress(
+        reconciliation_name=reconciliation.name,
+        requested_by=requested_by,
+        action=action,
+        phase=phase,
+        processed=processed,
+        total=total,
+        summary=summary,
+        is_complete=is_complete,
+    )
+
+
+# This publishes standard Frappe realtime progress to the user who started the reconciliation.
+def _publish_reconciliation_progress(
+    reconciliation_name: str,
+    requested_by: str | None,
+    action: str,
+    phase: str,
+    processed: int = 0,
+    total: int = 0,
+    summary: dict | None = None,
+    is_complete: bool = False,
+):
+    if not requested_by:
+        return
+
+    summary = summary or {}
+    processed = max(cint(processed), 0)
+    total = max(cint(total), 0)
+
+    if total:
+        progress_percent = min(round((processed / total) * 100), 100)
+    else:
+        progress_percent = 100 if is_complete else 0
+
+    progress_data = {
+        "reconciliation_name": reconciliation_name,
+        "action": action,
+        "phase": phase,
+        "processed": processed,
+        "total": total,
+        "progress_percent": progress_percent,
+        "created": cint(summary.get("created")),
+        "unmatched": cint(summary.get("unmatched")),
+        "failed": cint(summary.get("failed")),
+        "is_complete": is_complete,
+    }
+
+    frappe.publish_realtime(
+        BROKERAGE_RECONCILIATION_PROGRESS_EVENT,
+        progress_data,
+        user=requested_by,
+    )
+
+
 # This submits the reconciliation document after its settlements are already submitted.
 def _submit_reconciliation_after_matching(reconciliation_name: str):
     reconciliation = frappe.get_doc("Brokerage Reconciliation", reconciliation_name)
@@ -370,8 +466,11 @@ def _submit_reconciliation_after_matching(reconciliation_name: str):
     reconciliation.submit()
 
 
-# This runs all matching methods and creates draft settlement suggestions.
-def _generate_match_suggestions(reconciliation: Document) -> dict:
+# This runs all matching methods and sends periodic progress for the website loader.
+def _generate_match_suggestions(
+    reconciliation: Document,
+    requested_by: str | None = None,
+) -> dict:
     statements = _get_available_statements(reconciliation)
     policies_by_policy_number = _get_available_policies_by_policy_number(reconciliation)
 
@@ -381,12 +480,21 @@ def _generate_match_suggestions(reconciliation: Document) -> dict:
         "unmatched": 0,
     }
 
-    for statement in statements:
+    for statement_index, statement in enumerate(statements, start=1):
         statement_remaining = flt(statement.unallocated_brokerage)
         match_result = _find_statement_match(statement, policies_by_policy_number)
 
         if not match_result:
             summary["unmatched"] += 1
+            _publish_reconciliation_progress_if_due(
+                reconciliation=reconciliation,
+                requested_by=requested_by,
+                action="matching",
+                phase=_("Matching statements."),
+                processed=statement_index,
+                total=len(statements),
+                summary=summary,
+            )
             continue
 
         created_for_statement = 0
@@ -426,11 +534,36 @@ def _generate_match_suggestions(reconciliation: Document) -> dict:
         if not created_for_statement:
             summary["unmatched"] += 1
 
+        _publish_reconciliation_progress_if_due(
+            reconciliation=reconciliation,
+            requested_by=requested_by,
+            action="matching",
+            phase=_("Matching statements."),
+            processed=statement_index,
+            total=len(statements),
+            summary=summary,
+        )
+
+    if not statements:
+        _publish_reconciliation_progress(
+            reconciliation_name=reconciliation.name,
+            requested_by=requested_by,
+            action="matching",
+            phase=_("No eligible statements were found."),
+            processed=0,
+            total=0,
+            summary=summary,
+            is_complete=True,
+        )
+
     return summary
 
 
-# This creates write-off settlements for policy balances within the configured limit.
-def _generate_write_off_settlements(reconciliation: Document) -> dict:
+# This creates write-off settlements and sends periodic progress for the website loader.
+def _generate_write_off_settlements(
+    reconciliation: Document,
+    requested_by: str | None = None,
+) -> dict:
     policies = _get_available_write_off_policies(reconciliation)
     write_off_limit = flt(reconciliation.amount_tolerance)
 
@@ -440,15 +573,33 @@ def _generate_write_off_settlements(reconciliation: Document) -> dict:
         "unmatched": 0,
     }
 
-    for policy in policies:
+    for policy_index, policy in enumerate(policies, start=1):
         policy_remaining = flt(policy.outstanding_brokerage)
 
         if policy_remaining <= 0:
             summary["unmatched"] += 1
+            _publish_reconciliation_progress_if_due(
+                reconciliation=reconciliation,
+                requested_by=requested_by,
+                action="write_off",
+                phase=_("Checking eligible policies."),
+                processed=policy_index,
+                total=len(policies),
+                summary=summary,
+            )
             continue
 
         if policy_remaining > write_off_limit:
             summary["unmatched"] += 1
+            _publish_reconciliation_progress_if_due(
+                reconciliation=reconciliation,
+                requested_by=requested_by,
+                action="write_off",
+                phase=_("Checking eligible policies."),
+                processed=policy_index,
+                total=len(policies),
+                summary=summary,
+            )
             continue
 
         _create_draft_settlement(
@@ -464,6 +615,28 @@ def _generate_write_off_settlements(reconciliation: Document) -> dict:
         )
 
         summary["created"] += 1
+
+        _publish_reconciliation_progress_if_due(
+            reconciliation=reconciliation,
+            requested_by=requested_by,
+            action="write_off",
+            phase=_("Checking eligible policies."),
+            processed=policy_index,
+            total=len(policies),
+            summary=summary,
+        )
+
+    if not policies:
+        _publish_reconciliation_progress(
+            reconciliation_name=reconciliation.name,
+            requested_by=requested_by,
+            action="write_off",
+            phase=_("No eligible policies were found."),
+            processed=0,
+            total=0,
+            summary=summary,
+            is_complete=True,
+        )
 
     return summary
 

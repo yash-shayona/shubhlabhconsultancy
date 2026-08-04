@@ -1,0 +1,551 @@
+.slc-brokerage-page {
+    --slc-primary: #2463eb;
+    --slc-primary-dark: #1748b7;
+    --slc-primary-soft: #edf3ff;
+    --slc-text: #17233b;
+    --slc-muted: #66758d;
+    --slc-border: #dde5f0;
+    --slc-surface: #ffffff;
+    --slc-surface-soft: #f6f8fc;
+    --slc-success: #118a4e;
+    --slc-success-soft: #eaf9f0;
+    --slc-warning: #b46c07;
+    --slc-warning-soft: #fff7e8;
+    --slc-danger: #c53737;
+    --slc-danger-soft: #fff0f0;
+    min-height: 100vh;
+    padding: 32px;
+    color: var(--slc-text);
+    background:
+        radial-gradient(circle at top left, rgba(36, 99, 235, 0.15), transparent 28rem),
+        linear-gradient(160deg, #f8fbff 0%, #edf3fb 100%);
+}
+
+.slc-brokerage-page,
+.slc-brokerage-page * {
+    box-sizing: border-box;
+}
+
+.slc-brokerage-shell {
+    width: min(1180px, 100%);
+    margin: 0 auto;
+}
+
+.slc-brokerage-header,
+.slc-brand,
+.slc-actions,
+.slc-result-links {
+    display: flex;
+    align-items: center;
+}
+
+.slc-brokerage-header {
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.slc-brand {
+    gap: 14px;
+}
+
+.slc-brand-mark {
+    display: grid;
+    width: 52px;
+    height: 52px;
+    place-items: center;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    background: linear-gradient(135deg, var(--slc-primary), #5f92ff);
+    border-radius: 16px;
+    box-shadow: 0 12px 24px rgba(36, 99, 235, 0.24);
+}
+
+.slc-eyebrow {
+    margin: 0 0 5px;
+    color: var(--slc-primary);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.slc-brokerage-header h1,
+.slc-card-heading h2 {
+    margin: 0;
+    letter-spacing: -0.025em;
+}
+
+.slc-brokerage-header h1 {
+    font-size: clamp(24px, 4vw, 32px);
+}
+
+.slc-header-description {
+    margin: 5px 0 0;
+    color: var(--slc-muted);
+    font-size: 14px;
+}
+
+.slc-logout-link {
+    padding: 10px 14px;
+    color: var(--slc-muted);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid var(--slc-border);
+    border-radius: 10px;
+}
+
+.slc-logout-link:hover {
+    color: var(--slc-primary-dark);
+    text-decoration: none;
+    background: #fff;
+}
+
+.slc-form-card,
+.slc-status-card {
+    background: rgba(255, 255, 255, 0.93);
+    border: 1px solid rgba(221, 229, 240, 0.95);
+    box-shadow: 0 16px 40px rgba(23, 35, 59, 0.06);
+}
+
+/* This keeps the guide link visible without taking space from the working form. */
+.slc-guide-notice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    margin-bottom: 16px;
+    color: var(--slc-primary-dark);
+    background: var(--slc-primary-soft);
+    border: 1px solid #cfdfff;
+    border-radius: 12px;
+}
+
+.slc-guide-notice-icon {
+    display: grid;
+    width: 19px;
+    height: 19px;
+    flex: 0 0 19px;
+    place-items: center;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    background: var(--slc-primary);
+    border-radius: 50%;
+}
+
+.slc-guide-notice p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.slc-guide-notice a {
+    color: var(--slc-primary-dark);
+    font-weight: 750;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.slc-workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1.36fr) minmax(300px, 0.86fr);
+    gap: 22px;
+}
+
+.slc-form-card,
+.slc-status-card {
+    padding: 28px;
+    border-radius: 20px;
+}
+
+.slc-card-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.slc-card-heading h2 {
+    font-size: 20px;
+}
+
+.slc-required-note {
+    color: var(--slc-muted);
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.slc-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.slc-field {
+    display: grid;
+    gap: 7px;
+}
+
+.slc-field-wide {
+    grid-column: span 2;
+}
+
+.slc-field label {
+    color: #34425c;
+    font-size: 13px;
+    font-weight: 750;
+}
+
+.slc-field label span {
+    color: var(--slc-danger);
+}
+
+.slc-field input,
+.slc-field select {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    color: var(--slc-text);
+    font: inherit;
+    background: #fff;
+    border: 1px solid var(--slc-border);
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.slc-field input:focus,
+.slc-field select:focus {
+    border-color: var(--slc-primary);
+    box-shadow: 0 0 0 3px rgba(36, 99, 235, 0.13);
+}
+
+.slc-field select:disabled {
+    color: var(--slc-muted);
+    background: var(--slc-surface-soft);
+    cursor: wait;
+}
+
+.slc-field small,
+.slc-checkbox-field small {
+    color: var(--slc-muted);
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+.slc-checkbox-field {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 21px;
+    padding: 13px;
+    cursor: pointer;
+    background: var(--slc-surface-soft);
+    border: 1px solid #e7ecf4;
+    border-radius: 12px;
+}
+
+.slc-checkbox-field input {
+    width: 16px;
+    height: 16px;
+    margin: 2px 0 0;
+    accent-color: var(--slc-primary);
+}
+
+.slc-checkbox-field span {
+    display: grid;
+    gap: 3px;
+}
+
+.slc-checkbox-field strong {
+    font-size: 13px;
+}
+
+.slc-form-divider {
+    height: 1px;
+    margin: 24px 0 18px;
+    background: var(--slc-border);
+}
+
+.slc-actions {
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.slc-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    gap: 8px;
+    padding: 10px 15px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 750;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+}
+
+.slc-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.slc-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.slc-button-primary {
+    color: #fff;
+    background: var(--slc-primary);
+    box-shadow: 0 8px 16px rgba(36, 99, 235, 0.22);
+}
+
+.slc-button-primary:hover:not(:disabled) {
+    background: var(--slc-primary-dark);
+}
+
+.slc-button-secondary {
+    color: #4f3814;
+    background: #fff8ea;
+    border-color: #f1d69c;
+}
+
+.slc-button-secondary:hover:not(:disabled) {
+    background: #ffedc5;
+}
+
+.slc-run-badge {
+    display: inline-flex;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 800;
+    border-radius: 999px;
+}
+
+.slc-run-badge.is-idle {
+    color: #506078;
+    background: #edf1f6;
+}
+
+.slc-run-badge.is-processing {
+    color: var(--slc-primary-dark);
+    background: var(--slc-primary-soft);
+}
+
+.slc-run-badge.is-complete {
+    color: var(--slc-success);
+    background: var(--slc-success-soft);
+}
+
+.slc-run-badge.is-warning {
+    color: var(--slc-warning);
+    background: var(--slc-warning-soft);
+}
+
+.slc-empty-state {
+    display: grid;
+    justify-items: center;
+    padding: 43px 18px;
+    text-align: center;
+}
+
+.slc-empty-icon {
+    display: grid;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    margin-bottom: 13px;
+    color: var(--slc-success);
+    font-size: 22px;
+    font-weight: 800;
+    background: var(--slc-success-soft);
+    border-radius: 16px;
+}
+
+.slc-empty-state h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.slc-empty-state p {
+    max-width: 290px;
+    margin: 8px 0 0;
+    color: var(--slc-muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.slc-result-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.slc-result-message {
+    margin: 8px 0 20px;
+    color: var(--slc-muted);
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.slc-progress-card {
+    padding: 14px;
+    margin: 0 0 18px;
+    background: linear-gradient(135deg, #f2f6ff, #f8fbff);
+    border: 1px solid #d7e3fb;
+    border-radius: 13px;
+}
+
+.slc-progress-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    color: var(--slc-primary-dark);
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.slc-progress-heading strong {
+    font-size: 13px;
+}
+
+.slc-progress-track {
+    height: 8px;
+    margin-top: 10px;
+    overflow: hidden;
+    background: #dce8ff;
+    border-radius: 999px;
+}
+
+.slc-progress-bar {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, #2463eb, #6795ff);
+    border-radius: inherit;
+    box-shadow: 0 0 12px rgba(36, 99, 235, 0.45);
+    transition: width 0.35s ease;
+}
+
+.slc-progress-card.is-indeterminate .slc-progress-bar {
+    width: 42%;
+    animation: slc-progress-indeterminate 1.25s ease-in-out infinite;
+}
+
+.slc-progress-count {
+    margin: 9px 0 0;
+    color: var(--slc-muted);
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+@keyframes slc-progress-indeterminate {
+    0% {
+        transform: translateX(-115%);
+    }
+
+    100% {
+        transform: translateX(255%);
+    }
+}
+
+.slc-result-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+}
+
+.slc-result-grid div {
+    padding: 13px;
+    background: var(--slc-surface-soft);
+    border: 1px solid #e7ecf4;
+    border-radius: 12px;
+}
+
+.slc-result-grid dt {
+    color: var(--slc-muted);
+    font-size: 10px;
+    font-weight: 750;
+    line-height: 1.35;
+}
+
+.slc-result-grid dd {
+    margin: 5px 0 0;
+    color: var(--slc-text);
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.slc-result-links {
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.slc-text-link {
+    color: var(--slc-primary-dark);
+    font-size: 12px;
+    font-weight: 750;
+}
+
+@media (max-width: 860px) {
+    .slc-workspace {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .slc-brokerage-page {
+        padding: 18px;
+    }
+
+    .slc-brokerage-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .slc-brokerage-header {
+        margin-bottom: 20px;
+    }
+
+    .slc-logout-link {
+        align-self: stretch;
+        text-align: center;
+    }
+
+    .slc-form-card,
+    .slc-status-card {
+        padding: 21px;
+        border-radius: 16px;
+    }
+
+    .slc-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .slc-field-wide {
+        grid-column: auto;
+    }
+
+    .slc-card-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .slc-actions .slc-button {
+        width: 100%;
+    }
+}

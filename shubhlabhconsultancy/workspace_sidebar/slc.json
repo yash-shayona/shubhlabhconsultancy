@@ -120,9 +120,32 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "web",
+   "indent": 1,
+   "keep_closed": 1,
+   "label": "Pages",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Section Break"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "icon": "full-page",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Reconciliation Tool",
+   "link_type": "URL",
+   "show_arrow": 0,
+   "type": "Link",
+   "url": "/slc/brokerage-reconciliation-tool"
   }
  ],
- "modified": "2026-07-28 16:15:13.681030",
+ "modified": "2026-08-04 14:12:51.444612",
  "modified_by": "Administrator",
  "module": "Shubh Labh Consultancy",
  "name": "SLC",

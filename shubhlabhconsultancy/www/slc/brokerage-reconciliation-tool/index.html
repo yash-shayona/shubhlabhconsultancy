@@ -1,0 +1,183 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Brokerage Reconciliation Tool{% endblock %}
+
+{% block page_content %}
+<div class="slc-brokerage-page">
+    <main class="slc-brokerage-shell">
+        <header class="slc-brokerage-header">
+            <div class="slc-brand">
+                <div class="slc-brand-mark">SLC</div>
+
+                <div>
+                    <p class="slc-eyebrow">Brokerage Operations</p>
+                    <h1>Brokerage Reconciliation</h1>
+                    <p class="slc-header-description">
+                        Match submitted brokerage statements or process eligible write-offs.
+                    </p>
+                </div>
+            </div>
+
+            <a class="slc-logout-link" href="/logout?redirect-to=/login">
+                Sign out
+            </a>
+        </header>
+
+        <aside class="slc-guide-notice" role="note">
+            <span class="slc-guide-notice-icon" aria-hidden="true">i</span>
+            <p>
+                <strong>First time using this tool?</strong>
+                <a href="/slc/brokerage-reconciliation-tool/guide">
+                    Read the Brokerage Reconciliation Guide before starting a run →
+                </a>
+            </p>
+        </aside>
+
+        <section class="slc-workspace">
+            <form id="brokerage-reconciliation-form" class="slc-form-card">
+                <div class="slc-card-heading">
+                    <div>
+                        <p class="slc-eyebrow">Run details</p>
+                        <h2>Choose reconciliation inputs</h2>
+                    </div>
+
+                    <span class="slc-required-note">* Required fields</span>
+                </div>
+
+                <div class="slc-form-grid">
+                    <div class="slc-field slc-field-wide">
+                        <label for="insurer-name">Insurer <span>*</span></label>
+                        <select id="insurer-name" required disabled>
+                            <option value="">Loading enabled insurers…</option>
+                        </select>
+                        <small>Only enabled insurer masters are shown.</small>
+                    </div>
+
+                    <div class="slc-field">
+                        <label for="statement-month">Statement Month <span>*</span></label>
+                        <select id="statement-month" required></select>
+                    </div>
+
+                    <div class="slc-field">
+                        <label for="statement-year">Statement Year <span>*</span></label>
+                        <input id="statement-year" type="number" min="2000" max="2100" required>
+                    </div>
+
+                    <div class="slc-field">
+                        <label for="reconciliation-date">Reconciliation Date <span>*</span></label>
+                        <input id="reconciliation-date" type="date" required>
+                    </div>
+
+                    <div class="slc-field">
+                        <label for="amount-tolerance">Write-off Limit</label>
+                        <input id="amount-tolerance" type="number" min="0" step="0.01" value="0">
+                        <small>Required only for Generate Write-offs.</small>
+                    </div>
+                </div>
+
+                <label class="slc-checkbox-field" for="include-earlier-business">
+                    <input id="include-earlier-business" type="checkbox" checked>
+                    <span>
+                        <strong>Include Earlier Business</strong>
+                        <small>Allow earlier policy business to match the selected statement month.</small>
+                    </span>
+                </label>
+
+                <div class="slc-form-divider"></div>
+
+                <div class="slc-actions">
+                    <button class="slc-button slc-button-primary" type="button" data-action="match">
+                        <span aria-hidden="true">↔</span>
+                        Generate Matches
+                    </button>
+
+                    <button class="slc-button slc-button-secondary" type="button" data-action="write_off">
+                        <span aria-hidden="true">◒</span>
+                        Generate Write-offs
+                    </button>
+                </div>
+            </form>
+
+            <aside class="slc-status-card">
+                <div class="slc-card-heading">
+                    <div>
+                        <p class="slc-eyebrow">Background processing</p>
+                        <h2>Run status</h2>
+                    </div>
+
+                    <span id="run-status-badge" class="slc-run-badge is-idle">Ready</span>
+                </div>
+
+                <div id="run-empty-state" class="slc-empty-state">
+                    <div class="slc-empty-icon" aria-hidden="true">✓</div>
+                    <h3>No active reconciliation</h3>
+                    <p>
+                        Select your insurer and statement period, then start matching or write-off processing.
+                    </p>
+                </div>
+
+                <div id="run-result" class="slc-run-result hidden">
+                    <p id="run-result-title" class="slc-result-title"></p>
+                    <p id="run-result-message" class="slc-result-message"></p>
+
+                    <div id="reconciliation-progress" class="slc-progress-card hidden" aria-live="polite">
+                        <div class="slc-progress-heading">
+                            <span id="progress-phase">Preparing reconciliation…</span>
+                            <strong id="progress-percentage">0%</strong>
+                        </div>
+
+                        <div
+                            id="progress-track"
+                            class="slc-progress-track"
+                            role="progressbar"
+                            aria-label="Reconciliation progress"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            aria-valuenow="0"
+                        >
+                            <span id="progress-bar" class="slc-progress-bar"></span>
+                        </div>
+
+                        <p id="progress-count" class="slc-progress-count">
+                            Waiting for the background job to start…
+                        </p>
+                    </div>
+
+                    <dl class="slc-result-grid">
+                        <div>
+                            <dt id="checked-label">Statements Checked</dt>
+                            <dd id="records-checked">0</dd>
+                        </div>
+
+                        <div>
+                            <dt id="created-label">Settlements Submitted</dt>
+                            <dd id="records-created">0</dd>
+                        </div>
+
+                        <div>
+                            <dt id="unmatched-label">Unmatched Statements</dt>
+                            <dd id="records-unmatched">0</dd>
+                        </div>
+
+                        <div>
+                            <dt>Failed</dt>
+                            <dd id="records-failed">0</dd>
+                        </div>
+                    </dl>
+
+                    <div class="slc-result-links">
+                        <a id="open-reconciliation-link" class="slc-text-link" href="#" target="_blank" rel="noopener">
+                            Open audit record in Desk
+                        </a>
+
+                        <a id="open-settlements-link" class="slc-text-link" href="#" target="_blank" rel="noopener">
+                            View settlements in Desk
+                        </a>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
+    </main>
+</div>
+{% endblock %}

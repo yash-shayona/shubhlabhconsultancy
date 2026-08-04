@@ -13,6 +13,10 @@ from shubhlabhconsultancy.shubh_labh_consultancy.doctype.brokerage_reconciliatio
     enqueue_generate_write_offs,
 )
 
+from shubhlabhconsultancy.permissions.reconciliation_portal import (
+    require_brokerage_reconciliation_tool_access,
+)
+
 
 # This creates one reconciliation audit document and starts the selected tool action.
 @frappe.whitelist()
@@ -25,6 +29,9 @@ def start_reconciliation(
     include_earlier_business: int = 1,
     amount_tolerance: float = 0,
 ):
+    # This keeps the Desk action and website action under the same role restriction.
+    require_brokerage_reconciliation_tool_access()
+    
     if action not in ("match", "write_off"):
         frappe.throw(_("Invalid reconciliation action."))
 

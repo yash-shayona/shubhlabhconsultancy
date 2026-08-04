@@ -1,0 +1,104 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Brokerage Reconciliation Guide{% endblock %}
+
+{% block page_content %}
+<div class="slc-guide-page">
+    <main class="slc-guide-shell">
+        <header class="slc-guide-header">
+            <div class="slc-guide-brand">
+                <div class="slc-guide-brand-mark">SLC</div>
+
+                <div>
+                    <p class="slc-guide-eyebrow">Brokerage Operations</p>
+                    <h1>Brokerage Reconciliation Guide</h1>
+                    <p>Read this once before starting a matching or write-off run.</p>
+                </div>
+            </div>
+
+            <a class="slc-guide-back-link" href="/slc/brokerage-reconciliation-tool">
+                ← Open tool
+            </a>
+        </header>
+
+        <section class="slc-guide-intro" aria-labelledby="guide-start-title">
+            <span class="slc-guide-intro-chip">Start here</span>
+            <h2 id="guide-start-title">Use the tool only after source records are ready</h2>
+            <p>
+                The tool creates a Brokerage Reconciliation audit record and starts the selected action in the background.
+                It does not replace source-data validation.
+            </p>
+        </section>
+
+        <section class="slc-guide-steps" aria-label="How to use Brokerage Reconciliation">
+            <article class="slc-guide-step">
+                <span class="slc-guide-step-number">01</span>
+                <h2>Check source records</h2>
+                <p>
+                    Matching reads submitted Brokerage Statements with unallocated brokerage and submitted Policy Registers
+                    with outstanding brokerage. Confirm insurer, policy number, dates, and brokerage values first.
+                </p>
+            </article>
+
+            <article class="slc-guide-step">
+                <span class="slc-guide-step-number">02</span>
+                <h2>Select the statement period</h2>
+                <p>
+                    Choose the insurer and the statement month/year that belong to the Brokerage Statement records you want
+                    to process. The reconciliation date becomes the settlement date for generated records.
+                </p>
+            </article>
+
+            <article class="slc-guide-step">
+                <span class="slc-guide-step-number">03</span>
+                <h2>Choose earlier-business handling</h2>
+                <p>
+                    Keep <strong>Include Earlier Business</strong> enabled to consider eligible Policy Registers from the
+                    selected month and earlier. Turn it off to consider only the selected business month.
+                </p>
+            </article>
+
+            <article class="slc-guide-step">
+                <span class="slc-guide-step-number">04</span>
+                <h2>Generate Matches</h2>
+                <p>
+                    Use this for normal statement-to-policy matching. The background job checks eligible statements and
+                    creates system-generated Brokerage Settlement records for matching balances.
+                </p>
+            </article>
+
+            <article class="slc-guide-step slc-guide-step-emphasis">
+                <span class="slc-guide-step-number">05</span>
+                <h2>Generate Write-offs</h2>
+                <p>
+                    Enter a positive Write-off Limit first. Only eligible policy balances that are less than or equal to
+                    that limit can be written off; a negative or zero limit cannot start this action.
+                </p>
+            </article>
+
+            <article class="slc-guide-step">
+                <span class="slc-guide-step-number">06</span>
+                <h2>Follow and review the run</h2>
+                <p>
+                    Use the Run Status card while the job is queued or processing. After completion, open the audit record
+                    or settlements in Desk to review the generated system records.
+                </p>
+            </article>
+        </section>
+
+        <aside class="slc-guide-reminder" role="note">
+            <span aria-hidden="true">✓</span>
+            <p>
+                <strong>Important:</strong> Do not start a second run for the same records until the current run has
+                completed and its audit result has been reviewed.
+            </p>
+        </aside>
+
+        <div class="slc-guide-actions">
+            <a class="slc-guide-primary-link" href="/slc/brokerage-reconciliation-tool">
+                Open Brokerage Reconciliation Tool →
+            </a>
+        </div>
+    </main>
+</div>
+{% endblock %}
